@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Hello</title>
+</head>
+<body>
+    <!--/*@thymesVar id="clients" type="java.util.List<by.bsuir.spp.jewelryrentsystem.model.Client>"*/-->
+    <div th:if="${not #lists.isEmpty(clients)}">
+        <table>
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Surname</td>
+                    <td>Second name</td>
+                    <td>Passport number</td>
+                    <td>Address</td>
+                    <td>Telephone</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients}">
+                    <!--/*@thymesVar id="client" type="by.bsuir.spp.jewelryrentsystem.model.Client"*/-->
+                    <td th:text="${client.name}"></td>
+                    <td th:text="${client.surname}"></td>
+                    <td th:text="${client.secondName}"></td>
+                    <td th:text="${client.passportNumber}"></td>
+                    <td th:text="${client.address}"></td>
+                    <td th:text="${client.telephone}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:unless="${not #lists.isEmpty(clients)}">
+        <p>No clients found!</p>
+    </div>
+</body>
+</html>
