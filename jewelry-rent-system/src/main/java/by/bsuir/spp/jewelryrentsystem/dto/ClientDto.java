@@ -1,4 +1,4 @@
-package by.bsuir.spp.jewelryrentsystem.model.dto;
+package by.bsuir.spp.jewelryrentsystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

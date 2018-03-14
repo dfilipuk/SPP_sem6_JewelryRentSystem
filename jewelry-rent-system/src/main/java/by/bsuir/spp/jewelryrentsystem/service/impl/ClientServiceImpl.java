@@ -1,7 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
 import by.bsuir.spp.jewelryrentsystem.model.Client;
-import by.bsuir.spp.jewelryrentsystem.model.dto.ClientDto;
+import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 import by.bsuir.spp.jewelryrentsystem.repository.ClientRepository;
 import by.bsuir.spp.jewelryrentsystem.service.ClientService;
 import by.bsuir.spp.jewelryrentsystem.service.PaginationService;
