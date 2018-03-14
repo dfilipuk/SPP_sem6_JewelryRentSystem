@@ -1,7 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
 import by.bsuir.spp.jewelryrentsystem.model.Client;
-import by.bsuir.spp.jewelryrentsystem.model.dto.ClientDto;
+import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 
 import java.util.List;
 
