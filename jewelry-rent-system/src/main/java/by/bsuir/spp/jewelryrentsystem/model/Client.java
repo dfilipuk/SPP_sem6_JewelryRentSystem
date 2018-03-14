@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,5 +50,6 @@ public class Client {
     @Getter
     @Setter
     @OneToMany(mappedBy = "client")
+    @JsonIgnore
     private Set<Order> orders;
 }
