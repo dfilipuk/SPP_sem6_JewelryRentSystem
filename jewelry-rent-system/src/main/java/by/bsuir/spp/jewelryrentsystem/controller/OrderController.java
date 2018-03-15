@@ -23,7 +23,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/page-list")
-    public List<Order> getAllOrdersPageable(@RequestParam(value = "page") int pageNumber,
+    public List<OrderDto> getAllOrdersPageable(@RequestParam(value = "page") int pageNumber,
                                              @RequestParam(value = "page-size") int pageSize) {
         return orderService.getAllOrdersPageable(pageNumber, pageSize);
     }
