@@ -56,18 +56,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getAllOrdersPageable(int page, int size) {
-        List<Order> result;
+    public List<OrderDto> getAllOrdersPageable(int page, int size) {
+        List<Order> orders;
 
         try {
             Sort sort = new Sort(new Sort.Order(Sort.Direction.DESC, SORT_COLUMN));
             Pageable pageable = new PageRequest(page, size, sort);
-            result = orderRepository.findAll(pageable).getContent();
+            orders = orderRepository.findAll(pageable).getContent();
         } catch (Exception e) {
             throw new UnprocessableEntityException(e.getMessage());
         }
 
-        return result;
+        return convertToDtoList(orders);
     }
 
     @Override
