@@ -34,7 +34,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/get")
-    public Order getOrder(@RequestParam(value = "id") long id) {
+    public OrderDto getOrder(@RequestParam(value = "id") long id) {
         return orderService.getOrderById(id);
     }
 

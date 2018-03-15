@@ -9,7 +9,7 @@ public interface OrderService {
     List<OrderDto> getAllOrders();
     List<Order> getAllOrdersPageable(int page, int size);
     long getOrdersListPagesAmount(long pageSize);
-    Order getOrderById(long id);
+    OrderDto getOrderById(long id);
     void deleteOrderById(long id);
     void createOrder(OrderDto clientDto);
     void updateOrder(OrderDto clientDto);

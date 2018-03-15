@@ -76,14 +76,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(long id) {
+    public OrderDto getOrderById(long id) {
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         Order order = orderRepository.findOne(id);
 
         if (order == null) {
             throw new NotFoundException("Order not found");
         }
 
-        return order;
+        return new OrderDto(
+                order.getId(),
+                order.getStatus(),
+                formatter.format(order.getRentDate()),
+                order.getDaysRent(),
+                order.getCost(),
+                order.getClient().getId(),
+                order.getEmployee().getId(),
+                order.getJewelry().getId()
+        );
     }
 
     @Override
