@@ -18,9 +18,14 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping(value = "/list")
-    public List<Client> getAllClients(@RequestParam(value = "page") int pageNumber,
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
+    }
+
+    @GetMapping(value = "/page-list")
+    public List<Client> getAllClientsPageable(@RequestParam(value = "page") int pageNumber,
             @RequestParam(value = "page-size") int pageSize) {
-        return clientService.getAllClients(pageNumber, pageSize);
+        return clientService.getAllClientsPageable(pageNumber, pageSize);
     }
 
     @GetMapping(value = "/list-pages-amo")
