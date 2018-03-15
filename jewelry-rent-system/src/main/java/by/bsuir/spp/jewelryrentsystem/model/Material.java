@@ -27,7 +27,7 @@ public class Material {
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_id")
     private Material parentMaterial;
 }

@@ -63,12 +63,12 @@ public class Jewelry {
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
     @Getter
     @Setter
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Material> materials;
 }
