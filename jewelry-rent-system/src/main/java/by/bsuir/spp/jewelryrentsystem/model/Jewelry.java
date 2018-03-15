@@ -69,6 +69,11 @@ public class Jewelry {
 
     @Getter
     @Setter
+    @OneToMany(mappedBy = "jewelry")
+    private Set<Order> orders;
+
+    @Getter
+    @Setter
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "jewelry_material",

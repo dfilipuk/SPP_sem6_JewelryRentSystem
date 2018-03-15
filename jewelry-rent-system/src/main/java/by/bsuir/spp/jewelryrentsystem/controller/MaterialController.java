@@ -43,12 +43,12 @@ public class MaterialController {
     }
 
     @PostMapping(value = "/create")
-    public void createMaterial(@Validated(MaterialDto.Create.class) @ModelAttribute MaterialDto order) {
-        materialService.createMaterial(order);
+    public void createMaterial(@Validated(MaterialDto.Create.class) @ModelAttribute MaterialDto material) {
+        materialService.createMaterial(material);
     }
 
     @PostMapping(value = "/update")
-    public void updateMaterial(@Validated(MaterialDto.Update.class) @ModelAttribute MaterialDto order) {
-        materialService.updateMaterial(order);
+    public void updateMaterial(@Validated(MaterialDto.Update.class) @ModelAttribute MaterialDto material) {
+        materialService.updateMaterial(material);
     }
 }

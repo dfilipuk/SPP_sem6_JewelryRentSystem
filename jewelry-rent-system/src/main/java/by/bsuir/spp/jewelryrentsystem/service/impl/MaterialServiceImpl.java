@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MaterialInterfaceImpl implements MaterialService {
+public class MaterialServiceImpl implements MaterialService {
     private final String SORT_COLUMN = "name";
 
     @Autowired
