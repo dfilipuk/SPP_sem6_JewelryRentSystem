@@ -18,17 +18,33 @@ import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
+    private final String SORT_COLUMN = "surname";
+
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
     private PaginationService paginationService;
 
     @Override
-    public List<Client> getAllClients(int page, int size) {
+    public List<Client> getAllClients() {
         List<Client> result;
 
         try {
-            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, "surname"));
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, SORT_COLUMN));
+            result = clientRepository.findAll(sort);
+        } catch (Exception e) {
+            throw new UnprocessableEntityException(e.getMessage());
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Client> getAllClientsPageable(int page, int size) {
+        List<Client> result;
+
+        try {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, SORT_COLUMN));
             Pageable pageable = new PageRequest(page, size, sort);
             result = clientRepository.findAll(pageable).getContent();
         } catch (Exception e) {
