@@ -70,5 +70,10 @@ public class Jewelry {
     @Getter
     @Setter
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "jewelry_material",
+            joinColumns = @JoinColumn(name = "jewelry_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "material_id", referencedColumnName = "id")
+    )
     private Set<Material> materials;
 }

@@ -1,7 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
 import by.bsuir.spp.jewelryrentsystem.dto.OrderDto;
-import by.bsuir.spp.jewelryrentsystem.model.Order;
 import by.bsuir.spp.jewelryrentsystem.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
