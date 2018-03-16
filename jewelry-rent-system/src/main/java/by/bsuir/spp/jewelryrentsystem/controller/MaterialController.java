@@ -13,8 +13,12 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/material", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MaterialController {
+    private final MaterialService materialService;
+
     @Autowired
-    private MaterialService materialService;
+    public MaterialController(MaterialService materialService) {
+        this.materialService = materialService;
+    }
 
     @GetMapping(value = "/list")
     public List<MaterialDto> getAllMaterials() {

@@ -20,10 +20,14 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
     private final String SORT_COLUMN = "surname";
 
+    private final ClientRepository clientRepository;
+    private final PaginationService paginationService;
+
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private PaginationService paginationService;
+    public ClientServiceImpl(ClientRepository clientRepository, PaginationService paginationService) {
+        this.clientRepository = clientRepository;
+        this.paginationService = paginationService;
+    }
 
     @Override
     public List<Client> getAllClients() {

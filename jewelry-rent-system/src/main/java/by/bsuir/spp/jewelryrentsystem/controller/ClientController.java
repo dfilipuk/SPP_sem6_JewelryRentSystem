@@ -14,8 +14,12 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClientController {
+    private final ClientService clientService;
+
     @Autowired
-    private ClientService clientService;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @GetMapping(value = "/list")
     public List<Client> getAllClients() {
