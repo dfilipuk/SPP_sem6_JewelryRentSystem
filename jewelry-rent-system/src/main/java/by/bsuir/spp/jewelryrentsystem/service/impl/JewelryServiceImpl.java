@@ -27,14 +27,22 @@ import java.util.Set;
 public class JewelryServiceImpl implements JewelryService {
     private final String SORT_COLUMN = "name";
 
+    private final JewelryRepository jewelryRepository;
+    private final BranchRepository branchRepository;
+    private final MaterialRepository materialRepository;
+    private final PaginationService paginationService;
+
     @Autowired
-    private JewelryRepository jewelryRepository;
-    @Autowired
-    private BranchRepository branchRepository;
-    @Autowired
-    private MaterialRepository materialRepository;
-    @Autowired
-    private PaginationService paginationService;
+    public JewelryServiceImpl(JewelryRepository jewelryRepository,
+                              BranchRepository branchRepository,
+                              MaterialRepository materialRepository,
+                              PaginationService paginationService
+    ) {
+        this.jewelryRepository = jewelryRepository;
+        this.branchRepository = branchRepository;
+        this.materialRepository = materialRepository;
+        this.paginationService = paginationService;
+    }
 
     @Override
     public List<JewelryDto> getAllJewelries() {
