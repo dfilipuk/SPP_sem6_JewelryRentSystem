@@ -21,10 +21,14 @@ import java.util.List;
 public class MaterialServiceImpl implements MaterialService {
     private final String SORT_COLUMN = "name";
 
+    private final MaterialRepository materialRepository;
+    private final PaginationService paginationService;
+
     @Autowired
-    private MaterialRepository materialRepository;
-    @Autowired
-    private PaginationService paginationService;
+    public MaterialServiceImpl(MaterialRepository materialRepository, PaginationService paginationService) {
+        this.materialRepository = materialRepository;
+        this.paginationService = paginationService;
+    }
 
     @Override
     public List<MaterialDto> getAllMaterials() {

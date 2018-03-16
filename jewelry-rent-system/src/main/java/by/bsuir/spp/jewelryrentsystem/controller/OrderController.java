@@ -13,8 +13,12 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController {
+    private final OrderService orderService;
+
     @Autowired
-    private OrderService orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping(value = "/list")
     public List<OrderDto> getAllOrders() {
