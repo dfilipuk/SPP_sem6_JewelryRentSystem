@@ -13,17 +13,21 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping(value = "/jewelry", produces = MediaType.APPLICATION_JSON_VALUE)
 public class JewelryController {
+    private final JewelryService jewelryService;
+
     @Autowired
-    private JewelryService jewelryService;
+    public JewelryController(JewelryService jewelryService) {
+        this.jewelryService = jewelryService;
+    }
 
     @GetMapping(value = "/list")
-    public List<JewelryDto> getAllMaterials() {
+    public List<JewelryDto> getAllJewelries() {
         return jewelryService.getAllJewelries();
     }
 
     @GetMapping(value = "/page-list")
-    public List<JewelryDto> getAllMaterialsPageable(@RequestParam(value = "page") int pageNumber,
-                                                     @RequestParam(value = "page-size") int pageSize) {
+    public List<JewelryDto> getAllJewelriesPageable(@RequestParam(value = "page") int pageNumber,
+                                                    @RequestParam(value = "page-size") int pageSize) {
         return jewelryService.getAllJewelriesPageable(pageNumber, pageSize);
     }
 
@@ -33,7 +37,7 @@ public class JewelryController {
     }
 
     @GetMapping(value = "/get")
-    public JewelryDto getMaterial(@RequestParam(value = "id") long id) {
+    public JewelryDto getJewelry(@RequestParam(value = "id") long id) {
         return jewelryService.getJewelryById(id);
     }
 

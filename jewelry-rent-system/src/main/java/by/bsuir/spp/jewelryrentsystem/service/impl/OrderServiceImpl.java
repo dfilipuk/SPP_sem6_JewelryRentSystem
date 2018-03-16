@@ -30,16 +30,25 @@ public class OrderServiceImpl implements OrderService {
     private final String SORT_COLUMN = "rentDate";
     private final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
+    private final OrderRepository orderRepository;
+    private final ClientRepository clientRepository;
+    private final EmployeeRepository employeeRepository;
+    private final JewelryRepository jewelryRepository;
+    private final PaginationService paginationService;
+
     @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private EmployeeRepository employeeRepository;
-    @Autowired
-    private JewelryRepository jewelryRepository;
-    @Autowired
-    private PaginationService paginationService;
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ClientRepository clientRepository,
+                            EmployeeRepository employeeRepository,
+                            JewelryRepository jewelryRepository,
+                            PaginationService paginationService
+    ) {
+        this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
+        this.employeeRepository = employeeRepository;
+        this.jewelryRepository = jewelryRepository;
+        this.paginationService = paginationService;
+    }
 
     @Override
     public List<OrderDto> getAllOrders() {
