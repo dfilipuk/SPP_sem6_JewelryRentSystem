@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "materials")
@@ -27,7 +28,17 @@ public class Material {
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_id")
     private Material parentMaterial;
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "parentMaterial", fetch = FetchType.LAZY)
+    private Set<Material> childMaterials;
+
+    @Getter
+    @Setter
+    @ManyToMany(mappedBy = "materials", fetch = FetchType.LAZY)
+    private Set<Jewelry> jewelries;
 }

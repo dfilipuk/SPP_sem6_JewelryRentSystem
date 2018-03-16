@@ -63,12 +63,22 @@ public class Jewelry {
 
     @Getter
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
     @Getter
     @Setter
-    @ManyToMany
+    @OneToMany(mappedBy = "jewelry")
+    private Set<Order> orders;
+
+    @Getter
+    @Setter
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "jewelry_material",
+            joinColumns = @JoinColumn(name = "jewelry_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "material_id", referencedColumnName = "id")
+    )
     private Set<Material> materials;
 }

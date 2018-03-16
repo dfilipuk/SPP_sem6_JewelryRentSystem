@@ -6,7 +6,8 @@ import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 import java.util.List;
 
 public interface ClientService {
-    List<Client> getAllClients(int page, int size);
+    List<Client> getAllClients();
+    List<Client> getAllClientsPageable(int page, int size);
     long getClientsListPagesAmount(long pageSize);
     void deleteClientById(long id);
     Client getClientById(long id);
