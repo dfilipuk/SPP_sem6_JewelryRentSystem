@@ -101,8 +101,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new UnprocessableEntityException("Employee for delete not found");
         }
 
-        if (employee.getBranch() != null) {
-            throw new UnprocessableEntityException("Unable to delete employee with associated branches");
+        if (!employee.getOrders().isEmpty()) {
+            throw new UnprocessableEntityException("Unable to delete employee with associated orders");
         }
 
         try {
@@ -114,7 +114,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void createEmployee(EmployeeDto employeeDto) {
-        Employee employee = new Employee();
+        Employee employee = employeeRepository.findFirstByLogin(employeeDto.getLogin());
+
+        if (employee != null) {
+            throw new UnprocessableEntityException("Employee with same login already exists");
+        }
+
+        employee = new Employee();
         saveEmployeeData(employee, employeeDto);
     }
 
