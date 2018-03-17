@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,9 +41,25 @@ public class Employee {
     @Setter
     private String position;
 
+    @Column(name = "login")
+    @Getter
+    @Setter
+    private String login;
+
+    @Column(name = "password", length = 512)
+    @Getter
+    @Setter
+    private String password;
+
+    @Column(name = "role")
+    @Getter
+    @Setter
+    private String role;
+
     @Getter
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "branch_id", nullable = false)
+    @JsonIgnore
     private Branch branch;
 }
