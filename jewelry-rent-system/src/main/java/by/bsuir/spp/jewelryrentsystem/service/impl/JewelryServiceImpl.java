@@ -86,6 +86,12 @@ public class JewelryServiceImpl implements JewelryService {
             throw new NotFoundException("Jewelry not found");
         }
 
+        List<Long> materialsIds = new ArrayList<>();
+
+        for (Material material : jewelry.getMaterials()) {
+            materialsIds.add(material.getId());
+        }
+
         return new JewelryDto(
                 jewelry.getId(),
                 jewelry.getName(),
@@ -98,7 +104,7 @@ public class JewelryServiceImpl implements JewelryService {
                 jewelry.getCostPerDay(),
                 jewelry.getDaysRental(),
                 jewelry.getBranch() == null ? 0 : jewelry.getBranch().getId(),
-                new ArrayList<>()
+                materialsIds
         );
     }
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -62,4 +63,10 @@ public class Employee {
     @JoinColumn(name = "branch_id", nullable = false)
     @JsonIgnore
     private Branch branch;
+
+    @Getter
+    @Setter
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Set<Order> orders;
 }

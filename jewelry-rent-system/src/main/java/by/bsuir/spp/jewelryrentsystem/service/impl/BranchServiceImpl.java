@@ -82,6 +82,14 @@ public class BranchServiceImpl implements BranchService {
             throw new UnprocessableEntityException("Branch for delete not found");
         }
 
+        if (!branch.getEmployees().isEmpty()) {
+            throw new UnprocessableEntityException("Unable to delete branch with associated employees");
+        }
+
+        if (!branch.getJewelries().isEmpty()) {
+            throw new UnprocessableEntityException("Unable to delete branch with associated jewelries");
+        }
+
         try {
             branchRepository.delete(branch);
         } catch (Exception e) {
