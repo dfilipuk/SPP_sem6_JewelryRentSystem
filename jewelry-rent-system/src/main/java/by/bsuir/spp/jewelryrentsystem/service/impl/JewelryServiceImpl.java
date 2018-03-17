@@ -97,7 +97,7 @@ public class JewelryServiceImpl implements JewelryService {
                 jewelry.getStatus(),
                 jewelry.getCostPerDay(),
                 jewelry.getDaysRental(),
-                0,
+                jewelry.getBranch() == null ? 0 : jewelry.getBranch().getId(),
                 new ArrayList<>()
         );
     }
