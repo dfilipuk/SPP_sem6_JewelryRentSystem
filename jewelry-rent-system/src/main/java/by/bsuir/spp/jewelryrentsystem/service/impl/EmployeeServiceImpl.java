@@ -132,6 +132,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new UnprocessableEntityException("Employee for update not found");
         }
 
+        Employee existingEmployee = employeeRepository.findFirstByLogin(employeeDto.getLogin());
+
+        if ((existingEmployee != null) && (employee.getId() != existingEmployee.getId())) {
+            throw new UnprocessableEntityException("Employee with same login already exists");
+        }
+
         saveEmployeeData(employee, employeeDto);
     }
 
