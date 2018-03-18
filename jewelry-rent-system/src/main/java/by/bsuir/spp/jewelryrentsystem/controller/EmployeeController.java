@@ -4,6 +4,7 @@ import by.bsuir.spp.jewelryrentsystem.dto.EmployeeDto;
 import by.bsuir.spp.jewelryrentsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/employee", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
