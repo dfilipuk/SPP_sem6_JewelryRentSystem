@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +27,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final BranchRepository branchRepository;
     private final PaginationService paginationService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository,
                                BranchRepository branchRepository,
-                               PaginationService paginationService
+                               PaginationService paginationService,
+                               PasswordEncoder passwordEncoder
     ) {
         this.employeeRepository = employeeRepository;
         this.branchRepository = branchRepository;
         this.paginationService = paginationService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -87,7 +91,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 employee.getSalary(),
                 employee.getPosition(),
                 employee.getLogin(),
-                employee.getPassword(),
+                "",
                 employee.getRole(),
                 employee.getBranch() == null ? 0 : employee.getBranch().getId()
         );
@@ -155,7 +159,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setSalary(employeeDto.getSalary());
         employee.setPosition(employeeDto.getPosition());
         employee.setLogin(employeeDto.getLogin());
-        employee.setPassword(employeeDto.getPassword());
+        employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         employee.setRole(employeeDto.getRole());
 
         try {
@@ -177,7 +181,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employee.getSalary(),
                     employee.getPosition(),
                     employee.getLogin(),
-                    employee.getPassword(),
+                    "",
                     employee.getRole(),
                     0
             ));
