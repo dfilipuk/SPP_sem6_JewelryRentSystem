@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/employee", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
