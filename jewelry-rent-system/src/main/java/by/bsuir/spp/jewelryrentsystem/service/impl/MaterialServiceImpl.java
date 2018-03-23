@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.MaterialDto;
 import by.bsuir.spp.jewelryrentsystem.model.Material;
 import by.bsuir.spp.jewelryrentsystem.repository.MaterialRepository;
@@ -104,9 +105,10 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public void createMaterial(MaterialDto materialDto) {
+    public CreateActionResponseDto createMaterial(MaterialDto materialDto) {
         Material material = new Material();
         saveMaterialData(material, materialDto);
+        return new CreateActionResponseDto(material.getId());
     }
 
     @Override

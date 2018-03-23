@@ -1,5 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
+import by.bsuir.spp.jewelryrentsystem.dto.DeleteActionRequestDto;
 import by.bsuir.spp.jewelryrentsystem.dto.JewelryDto;
 import by.bsuir.spp.jewelryrentsystem.service.JewelryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +46,17 @@ public class JewelryController {
     }
 
     @PostMapping(value = "/delete")
-    public void deleteJewelry(@RequestParam(value = "id") long id) {
-        jewelryService.deleteJewelryById(id);
+    public void deleteJewelry(@Validated @RequestBody DeleteActionRequestDto deleteActionRequestDto) {
+        jewelryService.deleteJewelryById(deleteActionRequestDto.getId());
     }
 
     @PostMapping(value = "/create")
-    public void createJewelry(@Validated(JewelryDto.Create.class) @ModelAttribute JewelryDto jewelry) {
-        jewelryService.createJewelry(jewelry);
+    public CreateActionResponseDto createJewelry(@Validated(JewelryDto.Create.class) @RequestBody JewelryDto jewelry) {
+        return jewelryService.createJewelry(jewelry);
     }
 
     @PostMapping(value = "/update")
-    public void updateJewelry(@Validated(JewelryDto.Update.class) @ModelAttribute JewelryDto jewelry) {
+    public void updateJewelry(@Validated(JewelryDto.Update.class) @RequestBody JewelryDto jewelry) {
         jewelryService.updateJewelry(jewelry);
     }
 }

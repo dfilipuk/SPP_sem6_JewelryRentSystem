@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.model.Employee;
 import by.bsuir.spp.jewelryrentsystem.dto.EmployeeDto;
@@ -117,7 +118,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void createEmployee(EmployeeDto employeeDto) {
+    public CreateActionResponseDto createEmployee(EmployeeDto employeeDto) {
         Employee employee = employeeRepository.findFirstByLogin(employeeDto.getLogin());
 
         if (employee != null) {
@@ -126,6 +127,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employee = new Employee();
         saveEmployeeData(employee, employeeDto);
+        return new CreateActionResponseDto(employee.getId());
     }
 
     @Override

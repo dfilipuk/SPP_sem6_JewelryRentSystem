@@ -1,5 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
+import by.bsuir.spp.jewelryrentsystem.dto.DeleteActionRequestDto;
 import by.bsuir.spp.jewelryrentsystem.dto.EmployeeDto;
 import by.bsuir.spp.jewelryrentsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +46,17 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/delete")
-    public void deleteEmployee(@RequestParam(value = "id") long id) {
-        employeeService.deleteEmployeeById(id);
+    public void deleteEmployee(@Validated @RequestBody DeleteActionRequestDto deleteActionRequestDto) {
+        employeeService.deleteEmployeeById(deleteActionRequestDto.getId());
     }
 
     @PostMapping(value = "/create")
-    public void createEmployee(@Validated(EmployeeDto.Create.class) @ModelAttribute EmployeeDto employee) {
-        employeeService.createEmployee(employee);
+    public CreateActionResponseDto createEmployee(@Validated(EmployeeDto.Create.class) @RequestBody EmployeeDto employee) {
+        return employeeService.createEmployee(employee);
     }
 
     @PostMapping(value = "/update")
-    public void updateEmployee(@Validated(EmployeeDto.Update.class) @ModelAttribute EmployeeDto employee) {
+    public void updateEmployee(@Validated(EmployeeDto.Update.class) @RequestBody EmployeeDto employee) {
         employeeService.updateEmployee(employee);
     }
 }

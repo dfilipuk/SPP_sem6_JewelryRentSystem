@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.EmployeeDto;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface EmployeeService {
     long getEmployeesListPagesAmount(long pageSize);
     void deleteEmployeeById(long id);
     EmployeeDto getEmployeeById(long id);
-    void createEmployee(EmployeeDto employeeDto);
+    CreateActionResponseDto createEmployee(EmployeeDto employeeDto);
     void updateEmployee(EmployeeDto employeeDto);
 }

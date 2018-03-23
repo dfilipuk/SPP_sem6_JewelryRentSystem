@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Client;
 import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 
@@ -11,6 +12,6 @@ public interface ClientService {
     long getClientsListPagesAmount(long pageSize);
     void deleteClientById(long id);
     Client getClientById(long id);
-    void createClient(ClientDto clientDto);
+    CreateActionResponseDto createClient(ClientDto clientDto);
     void updateClient(ClientDto clientDto);
 }
