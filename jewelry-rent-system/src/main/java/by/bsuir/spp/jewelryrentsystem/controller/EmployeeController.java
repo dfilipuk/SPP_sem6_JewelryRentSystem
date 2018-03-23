@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.EmployeeDto;
 import by.bsuir.spp.jewelryrentsystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,8 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/create")
-    public void createEmployee(@Validated(EmployeeDto.Create.class) @ModelAttribute EmployeeDto employee) {
-        employeeService.createEmployee(employee);
+    public CreateActionResponseDto createEmployee(@Validated(EmployeeDto.Create.class) @ModelAttribute EmployeeDto employee) {
+        return employeeService.createEmployee(employee);
     }
 
     @PostMapping(value = "/update")
