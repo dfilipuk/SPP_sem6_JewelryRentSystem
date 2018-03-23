@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.dto.BranchDto;
 
@@ -11,6 +12,6 @@ public interface BranchService {
     long getBranchesListPagesAmount(long pageSize);
     void deleteBranchById(long id);
     Branch getBranchById(long id);
-    void createBranch(BranchDto branchDto);
+    CreateActionResponseDto createBranch(BranchDto branchDto);
     void updateBranch(BranchDto branchDto);
 }

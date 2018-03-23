@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Client;
 import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 import by.bsuir.spp.jewelryrentsystem.repository.ClientRepository;
@@ -94,9 +95,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void createClient(ClientDto clientDto) {
+    public CreateActionResponseDto createClient(ClientDto clientDto) {
         Client client = new Client();
         saveClientData(client, clientDto);
+        return new CreateActionResponseDto(client.getId());
     }
 
     @Override

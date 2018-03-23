@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.dto.BranchDto;
 import by.bsuir.spp.jewelryrentsystem.service.BranchService;
@@ -50,8 +51,8 @@ public class BranchController {
     }
 
     @PostMapping(value = "/create")
-    public void createBranch(@Validated(BranchDto.Create.class) @ModelAttribute BranchDto branch) {
-        branchService.createBranch(branch);
+    public CreateActionResponseDto createBranch(@Validated(BranchDto.Create.class) @ModelAttribute BranchDto branch) {
+        return branchService.createBranch(branch);
     }
 
     @PostMapping(value = "/update")

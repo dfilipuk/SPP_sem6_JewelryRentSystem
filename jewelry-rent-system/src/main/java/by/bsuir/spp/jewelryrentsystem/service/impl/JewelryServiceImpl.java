@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.JewelryDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.model.Jewelry;
@@ -133,9 +134,10 @@ public class JewelryServiceImpl implements JewelryService {
     }
 
     @Override
-    public void createJewelry(JewelryDto jewelryDto) {
+    public CreateActionResponseDto createJewelry(JewelryDto jewelryDto) {
         Jewelry jewelry = new Jewelry();
         saveJewelryData(jewelry, jewelryDto);
+        return new CreateActionResponseDto(jewelry.getId());
     }
 
     @Override

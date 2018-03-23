@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.JewelryDto;
 import by.bsuir.spp.jewelryrentsystem.service.JewelryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +50,8 @@ public class JewelryController {
     }
 
     @PostMapping(value = "/create")
-    public void createJewelry(@Validated(JewelryDto.Create.class) @ModelAttribute JewelryDto jewelry) {
-        jewelryService.createJewelry(jewelry);
+    public CreateActionResponseDto createJewelry(@Validated(JewelryDto.Create.class) @ModelAttribute JewelryDto jewelry) {
+        return jewelryService.createJewelry(jewelry);
     }
 
     @PostMapping(value = "/update")

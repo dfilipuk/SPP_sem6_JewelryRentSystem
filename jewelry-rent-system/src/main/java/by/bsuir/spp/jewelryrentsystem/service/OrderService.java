@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.OrderDto;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface OrderService {
     long getOrdersListPagesAmount(long pageSize);
     OrderDto getOrderById(long id);
     void deleteOrderById(long id);
-    void createOrder(OrderDto orderDto);
+    CreateActionResponseDto createOrder(OrderDto orderDto);
     void updateOrder(OrderDto orderDto);
 }

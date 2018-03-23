@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.dto.BranchDto;
 import by.bsuir.spp.jewelryrentsystem.repository.BranchRepository;
@@ -98,9 +99,10 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public void createBranch(BranchDto branchDto) {
+    public CreateActionResponseDto createBranch(BranchDto branchDto) {
         Branch branch = new Branch();
         saveBranchData(branch, branchDto);
+        return new CreateActionResponseDto(branch.getId());
     }
 
     @Override
