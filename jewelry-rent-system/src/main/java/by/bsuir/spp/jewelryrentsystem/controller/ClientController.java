@@ -1,5 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
+import by.bsuir.spp.jewelryrentsystem.dto.DeleteActionRequestDto;
 import by.bsuir.spp.jewelryrentsystem.model.Client;
 import by.bsuir.spp.jewelryrentsystem.dto.ClientDto;
 import by.bsuir.spp.jewelryrentsystem.service.ClientService;
@@ -45,17 +47,17 @@ public class ClientController {
     }
 
     @PostMapping(value = "/delete")
-    public void deleteClient(@RequestParam(value = "id") long id) {
-        clientService.deleteClientById(id);
+    public void deleteClient(@Validated @RequestBody DeleteActionRequestDto deleteActionRequestDto) {
+        clientService.deleteClientById(deleteActionRequestDto.getId());
     }
 
     @PostMapping(value = "/create")
-    public void createClient(@Validated(ClientDto.Create.class) @ModelAttribute ClientDto client) {
-        clientService.createClient(client);
+    public CreateActionResponseDto createClient(@Validated(ClientDto.Create.class) @RequestBody ClientDto client) {
+        return clientService.createClient(client);
     }
 
     @PostMapping(value = "/update")
-    public void updateClient(@Validated(ClientDto.Update.class) @ModelAttribute ClientDto client) {
+    public void updateClient(@Validated(ClientDto.Update.class) @RequestBody ClientDto client) {
         clientService.updateClient(client);
     }
 }

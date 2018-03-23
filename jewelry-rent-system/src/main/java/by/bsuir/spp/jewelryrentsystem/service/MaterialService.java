@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.MaterialDto;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface MaterialService {
     long getMaterialsListPagesAmount(long pageSize);
     MaterialDto getMaterialById(long id);
     void deleteMaterialById(long id);
-    void createMaterial(MaterialDto materialDto);
+    CreateActionResponseDto createMaterial(MaterialDto materialDto);
     void updateMaterial(MaterialDto materialDto);
 }

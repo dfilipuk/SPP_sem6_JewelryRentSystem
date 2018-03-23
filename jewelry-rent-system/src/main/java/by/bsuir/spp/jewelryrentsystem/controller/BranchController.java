@@ -1,5 +1,7 @@
 package by.bsuir.spp.jewelryrentsystem.controller;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
+import by.bsuir.spp.jewelryrentsystem.dto.DeleteActionRequestDto;
 import by.bsuir.spp.jewelryrentsystem.model.Branch;
 import by.bsuir.spp.jewelryrentsystem.dto.BranchDto;
 import by.bsuir.spp.jewelryrentsystem.service.BranchService;
@@ -45,17 +47,17 @@ public class BranchController {
     }
 
     @PostMapping(value = "/delete")
-    public void deleteBranch(@RequestParam(value = "id") long id) {
-        branchService.deleteBranchById(id);
+    public void deleteBranch(@Validated @RequestBody DeleteActionRequestDto deleteActionRequestDto) {
+        branchService.deleteBranchById(deleteActionRequestDto.getId());
     }
 
     @PostMapping(value = "/create")
-    public void createBranch(@Validated(BranchDto.Create.class) @ModelAttribute BranchDto branch) {
-        branchService.createBranch(branch);
+    public CreateActionResponseDto createBranch(@Validated(BranchDto.Create.class) @RequestBody BranchDto branch) {
+        return branchService.createBranch(branch);
     }
 
     @PostMapping(value = "/update")
-    public void updateBranch(@Validated(BranchDto.Update.class) @ModelAttribute BranchDto branch) {
+    public void updateBranch(@Validated(BranchDto.Update.class) @RequestBody BranchDto branch) {
         branchService.updateBranch(branch);
     }
 }

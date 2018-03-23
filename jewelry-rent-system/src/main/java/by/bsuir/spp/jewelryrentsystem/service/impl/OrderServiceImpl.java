@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service.impl;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.OrderDto;
 import by.bsuir.spp.jewelryrentsystem.model.Client;
 import by.bsuir.spp.jewelryrentsystem.model.Employee;
@@ -121,9 +122,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(OrderDto orderDto) {
+    public CreateActionResponseDto createOrder(OrderDto orderDto) {
         Order order = new Order();
         saveOrderData(order, orderDto);
+        return new CreateActionResponseDto(order.getId());
     }
 
     @Override

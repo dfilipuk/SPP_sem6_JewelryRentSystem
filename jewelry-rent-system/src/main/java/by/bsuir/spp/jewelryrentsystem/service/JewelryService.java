@@ -1,5 +1,6 @@
 package by.bsuir.spp.jewelryrentsystem.service;
 
+import by.bsuir.spp.jewelryrentsystem.dto.CreateActionResponseDto;
 import by.bsuir.spp.jewelryrentsystem.dto.JewelryDto;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface JewelryService {
     long getJewelriesListPagesAmount(long pageSize);
     JewelryDto getJewelryById(long id);
     void deleteJewelryById(long id);
-    void createJewelry(JewelryDto jewelryDto);
+    CreateActionResponseDto createJewelry(JewelryDto jewelryDto);
     void updateJewelry(JewelryDto jewelryDto);
 }
