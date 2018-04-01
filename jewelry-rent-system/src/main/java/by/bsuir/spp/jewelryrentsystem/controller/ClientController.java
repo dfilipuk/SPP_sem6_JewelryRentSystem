@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_MANAGER')")
 public class ClientController {
     private final ClientService clientService;
 
