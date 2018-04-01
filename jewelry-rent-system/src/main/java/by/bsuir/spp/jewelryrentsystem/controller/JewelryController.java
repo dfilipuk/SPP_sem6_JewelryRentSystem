@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/jewelry", produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class JewelryController {
     private final JewelryService jewelryService;
 
