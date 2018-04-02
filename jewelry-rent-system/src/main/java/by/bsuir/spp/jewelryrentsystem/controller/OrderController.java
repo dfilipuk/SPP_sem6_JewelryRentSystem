@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasAnyRole('ROLE_SELLER', 'ROLE_MANAGER')")
 public class OrderController {
     private final OrderService orderService;
 
