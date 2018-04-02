@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginRequest} from '../../models/login/login-request';
+import { Credential } from '../../models/credential';
 
 @Component({
   selector: 'authorization-form',
@@ -8,14 +8,14 @@ import {LoginRequest} from '../../models/login/login-request';
 })
 export class AuthorizationFormComponent implements OnInit {
 
-  loginData: LoginRequest = new LoginRequest();
+  loginData: Credential = new Credential();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  signIn(){
+  signIn() {
     console.log(this.loginData);
   }
 }
