@@ -9,4 +9,8 @@ export class StorageService implements IStorageService {
     public set(key: string, value: string) {
         localStorage.setItem(key, value);
     }
+
+    public remove(key: string) {
+        localStorage.removeItem(key);
+    }
 }
