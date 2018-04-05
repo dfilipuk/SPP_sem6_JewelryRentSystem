@@ -64,13 +64,12 @@ export class BranchCrudComponent implements OnInit {
     }, error => {
       this.operationStatus = CrudStatus.NotAdded;
     });
-
   }
 
   saveEditedBranch() {
     this.service.update(this.editedBranch).subscribe(data => {
       this.operationStatus = CrudStatus.Updated;
-      this.loadBranches();
+      this.loadBranches();      
     }, error => { 
       this.operationStatus = CrudStatus.NotUpdated;
     });

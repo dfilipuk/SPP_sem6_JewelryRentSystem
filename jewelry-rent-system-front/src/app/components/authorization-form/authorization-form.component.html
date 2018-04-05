@@ -22,5 +22,8 @@
             </div>
         </div>
         <button class="waves-effect waves-light btn" (click)="signIn()" [disabled]="login.invalid || password.invalid">Sign in</button>
+        <p></p>
     </div>
 </form>
+
+<button class="waves-effect waves-light btn btn-large" (click)="signOut()">Logout</button>

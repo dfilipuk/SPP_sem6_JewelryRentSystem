@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 
 import { NetworkService } from './network-service-base';
 import { EnvironmentService } from '../common/enviroment-service';
 import { ICrudService } from '../interfaces/crud-service-interface';
-import { IStorageService } from '../interfaces/storage-service-interface';
 
-@Injectable()
 export abstract class CrudService<T> extends NetworkService implements ICrudService<T> {
 
-    constructor(private controllerName: string, http: HttpClient, storage: IStorageService) {
-        super(EnvironmentService.ServerUrl, EnvironmentService.AuthTokenName, http, storage);
+    constructor(private controllerName: string, http: Http) {
+        super(EnvironmentService.ServerUrl, EnvironmentService.AuthTokenName, http);
     }
 
     getAll(): Observable<Object> {
