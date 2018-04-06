@@ -35,7 +35,6 @@ export abstract class NetworkService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('JrsAuthToken', authToken);
-        // headers.set('Authorization', 'Bearer ' + authToken);
         return headers;
     }
 }

@@ -12,6 +12,9 @@ import { DocumentsPageComponent } from './components/documents-page/documents-pa
 import { BranchCrudComponent } from './components/branch-crud/branch-crud.component';
 import { CrudMessageComponent } from './components/crud-message/crud-message.component';
 
+import { AuthorizationService } from './services/auth-service';
+import { UserService } from './services/user-service';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { CrudMessageComponent } from './components/crud-message/crud-message.com
     FormsModule,
     HttpModule,
   ],
-  providers: [],
+  providers: [
+    AuthorizationService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
