@@ -38,11 +38,12 @@ public class EmployeeRepositoryTest {
         Employee found = employeeRepository.findFirstByLogin(employee.getLogin());
 
         // then
-        assert (found.getLogin()).equals(employee.getLogin());
+        assert (found.getLogin())
+                .equals(employee.getLogin());
     }
 
     @Test
-    public void whenFindByName_thenReturnNull() {
+    public void whenCantFindByName_thenReturnNull() {
         // given
         Employee employee = new Employee();
         employee.setLogin("test");
