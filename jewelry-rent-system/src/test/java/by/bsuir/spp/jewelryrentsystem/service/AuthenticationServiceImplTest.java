@@ -48,7 +48,7 @@ public class AuthenticationServiceImplTest {
     }
 
     @Test(expected = UnauthorizedException.class)
-    public void whenValid_thenOk() {
+    public void whenValid_thenUnauthorizedException() {
         EmployeeDto found = authenticationService.getCurrentUser();
 
         assert (found == null);
