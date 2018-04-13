@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
-import { HttpClientModule }   from '@angular/common/http';
+import { HttpModule }   from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './components/app/app.component';
@@ -12,6 +12,10 @@ import { DocumentsPageComponent } from './components/documents-page/documents-pa
 import { BranchCrudComponent } from './components/branch-crud/branch-crud.component';
 import { CrudMessageComponent } from './components/crud-message/crud-message.component';
 
+import { AuthorizationService } from './services/auth-service';
+import { UserService } from './services/user-service';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
+
 
 @NgModule({
   declarations: [
@@ -21,15 +25,19 @@ import { CrudMessageComponent } from './components/crud-message/crud-message.com
     EntitiesPageComponent,
     DocumentsPageComponent,
     BranchCrudComponent,
-    CrudMessageComponent
+    CrudMessageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule,
+    HttpModule,
   ],
-  providers: [],
+  providers: [
+    AuthorizationService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

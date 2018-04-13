@@ -1,0 +1,32 @@
+<form class="card-panel" *ngIf="!currentUser.isUser">
+    <div class="container">
+        <h5>Enter your credentials to login into the system.</h5>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="login" type="text" name="login" class="validate" [(ngModel)]="loginData.login" #login="ngModel" required minlength="3"
+                    maxlength="255">
+                <label for="login">Login</label>
+                <span class="helper-text" [hidden]="login.valid || login.untouched">
+                    This is a required field. Enter from 3 to 255 characters.
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" type="password" name="password" class="validate" [(ngModel)]="loginData.password" #password="ngModel"
+                    required minlength="6" maxlength="512">
+                <label for="password">Password</label>
+                <span class="helper-text" [hidden]="password.valid || password.untouched">
+                    This is a required field. Enter from 6 to 512 characters.
+                </span>
+            </div>
+        </div>
+        <button class="waves-effect waves-light btn" (click)="signIn()" [disabled]="login.invalid || password.invalid">Sign in</button>
+        <p></p>
+    </div>
+</form>
+<br/>
+<br/>
+<br/>
+<br/>
+<button *ngIf="currentUser.isUser" class="waves-effect waves-light btn btn-large" (click)="signOut()">Logout</button>
