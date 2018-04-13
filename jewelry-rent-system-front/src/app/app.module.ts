@@ -14,6 +14,7 @@ import { CrudMessageComponent } from './components/crud-message/crud-message.com
 
 import { AuthorizationService } from './services/auth-service';
 import { UserService } from './services/user-service';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { UserService } from './services/user-service';
     EntitiesPageComponent,
     DocumentsPageComponent,
     BranchCrudComponent,
-    CrudMessageComponent
+    CrudMessageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,
