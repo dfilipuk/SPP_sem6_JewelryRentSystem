@@ -1,12 +1,12 @@
-import { BaseService } from './base-service';
-import { ICrudService } from './interfaces/crud-service';
+import { CrudService } from './base/crud-service-base';
+import { ICrudService } from './interfaces/crud-service-interface';
 import { Branch } from '../models/branch';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
- 
+
 @Injectable()
-export class BranchService extends BaseService<Branch> {
-    constructor(http: HttpClient) {
+export class BranchService extends CrudService<Branch> implements ICrudService<Branch> {
+    constructor(http: Http) {
         super('branch', http);
     }
 }

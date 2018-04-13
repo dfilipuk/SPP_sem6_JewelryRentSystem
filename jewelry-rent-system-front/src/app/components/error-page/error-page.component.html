@@ -1,0 +1,7 @@
+<div class="center">
+  <div [ngSwitch]="code" class="container red-text">
+    <h1 *ngSwitchCase="401">401 - Unauthorized</h1>
+    <h1 *ngSwitchCase="404">404 - Not found</h1>
+    <h1 *ngSwitchDefault>{{code}} - Error</h1>
+  </div>
+</div>
