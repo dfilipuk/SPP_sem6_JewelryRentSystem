@@ -21,7 +21,7 @@
           <a class="dropdown-button" href="/" data-activates="user-nav"> Login </a>
         </li>
       </ul>
-      <ul id="user-nav" class="dropdown-content">
+      <ul id="user-nav" class="dropdown-content" *ngIf="currentUser.isUser">
         <li>
           <a href="" (click)="logout()">Logout</a>
         </li>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Injectable } from '@angular/core';
+import { toast } from 'angular2-materialize';
 
 import { Credential } from '../../models/credential';
 import { AuthorizationService } from '../../services/auth-service';
@@ -22,6 +23,8 @@ export class AuthorizationFormComponent implements OnInit {
   signIn() {
     this.service.login(this.loginData).then(() => {
       this.loginData = new Credential();
+    }).catch(() => {
+      toast("Authentification failed", 4000);
     });
   }
 
