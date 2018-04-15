@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.util.List;
 
 public abstract class AbstractDocumentBuilder implements DocumentBuilder {
+    protected final String ARGS_ERROR_MESSAGE = "Invalid arguments";
+
     private final String PDF_WATER_MARK = "Evtushenko Tatyana, Filipuk Dmitry, Akulchik Vladimir";
     private final ExcelBuilder excelBuilder;
     private final CsvBuilder csvBuilder;
