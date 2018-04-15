@@ -3,6 +3,7 @@ package by.bsuir.spp.jewelryrentsystem.controller;
 import by.bsuir.spp.jewelryrentsystem.service.DocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.exception.InternalServerErrorException;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.EmployeeDocumentBuilder;
+import by.bsuir.spp.jewelryrentsystem.service.impl.document.JewelryDocumentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,15 @@ public class DocumentsController {
 
     private final DocumentBuilder clientDocumentBuilder;
     private final EmployeeDocumentBuilder employeeDocumentBuilder;
+    private final JewelryDocumentBuilder jewelryDocumentBuilder;
 
     @Autowired
     public DocumentsController(@Qualifier("client_documents") DocumentBuilder clientDocumentBuilder,
-                               @Qualifier("employee_documents") EmployeeDocumentBuilder employeeDocumentBuilder) {
+                               @Qualifier("employee_documents") EmployeeDocumentBuilder employeeDocumentBuilder,
+                               @Qualifier("jewelry_documents") JewelryDocumentBuilder jewelryDocumentBuilder) {
         this.clientDocumentBuilder = clientDocumentBuilder;
         this.employeeDocumentBuilder = employeeDocumentBuilder;
+        this.jewelryDocumentBuilder = jewelryDocumentBuilder;
     }
 
     @GetMapping(value = "/client-excel")
@@ -87,6 +91,39 @@ public class DocumentsController {
         try {
             httpServletResponse.setContentType(PDF_CONTENT_TYPE);
             employeeDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), branchId);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/jewelry-excel")
+    public void getJewelryExcel(HttpServletResponse httpServletResponse,
+                                 @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+        try {
+            httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
+            jewelryDocumentBuilder.generateExcelDocument(httpServletResponse.getOutputStream(), materialId);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/jewelry-csv")
+    public void getJewelryCsv(HttpServletResponse httpServletResponse,
+                               @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+        try {
+            httpServletResponse.setContentType(CSV_CONTENT_TYPE);
+            jewelryDocumentBuilder.generateCsvDocument(httpServletResponse.getOutputStream(), materialId);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/jewelry-pdf")
+    public void getJewelryPdf(HttpServletResponse httpServletResponse,
+                               @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+        try {
+            httpServletResponse.setContentType(PDF_CONTENT_TYPE);
+            jewelryDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), materialId);
         } catch (IOException e) {
             throw new InternalServerErrorException(ERROR_MESSAGE);
         }
