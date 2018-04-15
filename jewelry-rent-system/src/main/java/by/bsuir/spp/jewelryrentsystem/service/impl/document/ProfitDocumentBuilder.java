@@ -18,7 +18,6 @@ import java.util.*;
 @Service("profit_documents")
 public class ProfitDocumentBuilder extends AbstractDocumentBuilder {
     private final String INPUT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private final String OUTPUT_DATE_FORMAT = "yyyy-MM-dd";
 
     private final OrderRepository orderRepository;
     private final BranchRepository branchRepository;
