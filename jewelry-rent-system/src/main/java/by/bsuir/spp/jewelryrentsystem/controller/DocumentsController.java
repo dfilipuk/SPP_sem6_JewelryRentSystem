@@ -4,6 +4,7 @@ import by.bsuir.spp.jewelryrentsystem.service.DocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.exception.InternalServerErrorException;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.EmployeeDocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.JewelryDocumentBuilder;
+import by.bsuir.spp.jewelryrentsystem.service.impl.document.ProfitDocumentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +24,17 @@ public class DocumentsController {
     private final DocumentBuilder clientDocumentBuilder;
     private final EmployeeDocumentBuilder employeeDocumentBuilder;
     private final JewelryDocumentBuilder jewelryDocumentBuilder;
+    private final ProfitDocumentBuilder profitDocumentBuilder;
 
     @Autowired
     public DocumentsController(@Qualifier("client_documents") DocumentBuilder clientDocumentBuilder,
                                @Qualifier("employee_documents") EmployeeDocumentBuilder employeeDocumentBuilder,
-                               @Qualifier("jewelry_documents") JewelryDocumentBuilder jewelryDocumentBuilder) {
+                               @Qualifier("jewelry_documents") JewelryDocumentBuilder jewelryDocumentBuilder,
+                               @Qualifier("profit_documents") ProfitDocumentBuilder profitDocumentBuilder) {
         this.clientDocumentBuilder = clientDocumentBuilder;
         this.employeeDocumentBuilder = employeeDocumentBuilder;
         this.jewelryDocumentBuilder = jewelryDocumentBuilder;
+        this.profitDocumentBuilder = profitDocumentBuilder;
     }
 
     @GetMapping(value = "/client-excel")
@@ -65,7 +69,7 @@ public class DocumentsController {
 
     @GetMapping(value = "/employee-excel")
     public void getEmployeeExcel(HttpServletResponse httpServletResponse,
-                               @RequestParam(value = "branch-id", defaultValue = "0") Long branchId) {
+                                 @RequestParam(value = "branch-id", defaultValue = "0") Long branchId) {
         try {
             httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
             employeeDocumentBuilder.generateExcelDocument(httpServletResponse.getOutputStream(), branchId);
@@ -87,7 +91,7 @@ public class DocumentsController {
 
     @GetMapping(value = "/employee-pdf")
     public void getEmployeePdf(HttpServletResponse httpServletResponse,
-            @RequestParam(value = "branch-id", defaultValue = "0") Long branchId) {
+                               @RequestParam(value = "branch-id", defaultValue = "0") Long branchId) {
         try {
             httpServletResponse.setContentType(PDF_CONTENT_TYPE);
             employeeDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), branchId);
@@ -98,7 +102,7 @@ public class DocumentsController {
 
     @GetMapping(value = "/jewelry-excel")
     public void getJewelryExcel(HttpServletResponse httpServletResponse,
-                                 @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+                                @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
         try {
             httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
             jewelryDocumentBuilder.generateExcelDocument(httpServletResponse.getOutputStream(), materialId);
@@ -109,7 +113,7 @@ public class DocumentsController {
 
     @GetMapping(value = "/jewelry-csv")
     public void getJewelryCsv(HttpServletResponse httpServletResponse,
-                               @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+                              @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
         try {
             httpServletResponse.setContentType(CSV_CONTENT_TYPE);
             jewelryDocumentBuilder.generateCsvDocument(httpServletResponse.getOutputStream(), materialId);
@@ -120,10 +124,46 @@ public class DocumentsController {
 
     @GetMapping(value = "/jewelry-pdf")
     public void getJewelryPdf(HttpServletResponse httpServletResponse,
-                               @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
+                              @RequestParam(value = "material-id", defaultValue = "0") Long materialId) {
         try {
             httpServletResponse.setContentType(PDF_CONTENT_TYPE);
             jewelryDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), materialId);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/profit-excel")
+    public void getProfitExcel(HttpServletResponse httpServletResponse,
+                               @RequestParam(value = "start-date") String startDate,
+                               @RequestParam(value = "end-date") String endDate) {
+        try {
+            httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
+            profitDocumentBuilder.generateExcelDocument(httpServletResponse.getOutputStream(), startDate, endDate);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/profit-csv")
+    public void getProfitCsv(HttpServletResponse httpServletResponse,
+                             @RequestParam(value = "start-date") String startDate,
+                             @RequestParam(value = "end-date") String endDate) {
+        try {
+            httpServletResponse.setContentType(CSV_CONTENT_TYPE);
+            profitDocumentBuilder.generateCsvDocument(httpServletResponse.getOutputStream(), startDate, endDate);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/profit-pdf")
+    public void getProfitPdf(HttpServletResponse httpServletResponse,
+                             @RequestParam(value = "start-date") String startDate,
+                             @RequestParam(value = "end-date") String endDate) {
+        try {
+            httpServletResponse.setContentType(PDF_CONTENT_TYPE);
+            profitDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), startDate, endDate);
         } catch (IOException e) {
             throw new InternalServerErrorException(ERROR_MESSAGE);
         }
