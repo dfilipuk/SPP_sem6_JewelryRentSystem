@@ -4,6 +4,7 @@ import by.bsuir.spp.jewelryrentsystem.service.DocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.exception.InternalServerErrorException;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.EmployeeDocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.JewelryDocumentBuilder;
+import by.bsuir.spp.jewelryrentsystem.service.impl.document.OrderDocumentBuilder;
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.ProfitDocumentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,16 +26,19 @@ public class DocumentsController {
     private final EmployeeDocumentBuilder employeeDocumentBuilder;
     private final JewelryDocumentBuilder jewelryDocumentBuilder;
     private final ProfitDocumentBuilder profitDocumentBuilder;
+    private final OrderDocumentBuilder orderDocumentBuilder;
 
     @Autowired
     public DocumentsController(@Qualifier("client_documents") DocumentBuilder clientDocumentBuilder,
                                @Qualifier("employee_documents") EmployeeDocumentBuilder employeeDocumentBuilder,
                                @Qualifier("jewelry_documents") JewelryDocumentBuilder jewelryDocumentBuilder,
-                               @Qualifier("profit_documents") ProfitDocumentBuilder profitDocumentBuilder) {
+                               @Qualifier("profit_documents") ProfitDocumentBuilder profitDocumentBuilder,
+                               @Qualifier("order_documents") OrderDocumentBuilder orderDocumentBuilder) {
         this.clientDocumentBuilder = clientDocumentBuilder;
         this.employeeDocumentBuilder = employeeDocumentBuilder;
         this.jewelryDocumentBuilder = jewelryDocumentBuilder;
         this.profitDocumentBuilder = profitDocumentBuilder;
+        this.orderDocumentBuilder = orderDocumentBuilder;
     }
 
     @GetMapping(value = "/client-excel")
@@ -164,6 +168,42 @@ public class DocumentsController {
         try {
             httpServletResponse.setContentType(PDF_CONTENT_TYPE);
             profitDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), startDate, endDate);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/order-excel")
+    public void getOrderExcel(HttpServletResponse httpServletResponse,
+                               @RequestParam(value = "start-date", defaultValue = "") String startDate,
+                               @RequestParam(value = "end-date", defaultValue = "") String endDate) {
+        try {
+            httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
+            orderDocumentBuilder.generateExcelDocument(httpServletResponse.getOutputStream(), startDate, endDate);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/order-csv")
+    public void getOrderCsv(HttpServletResponse httpServletResponse,
+                             @RequestParam(value = "start-date", defaultValue = "") String startDate,
+                             @RequestParam(value = "end-date", defaultValue = "") String endDate) {
+        try {
+            httpServletResponse.setContentType(CSV_CONTENT_TYPE);
+            orderDocumentBuilder.generateCsvDocument(httpServletResponse.getOutputStream(), startDate, endDate);
+        } catch (IOException e) {
+            throw new InternalServerErrorException(ERROR_MESSAGE);
+        }
+    }
+
+    @GetMapping(value = "/order-pdf")
+    public void getOrderPdf(HttpServletResponse httpServletResponse,
+                             @RequestParam(value = "start-date", defaultValue = "") String startDate,
+                             @RequestParam(value = "end-date", defaultValue = "") String endDate) {
+        try {
+            httpServletResponse.setContentType(PDF_CONTENT_TYPE);
+            orderDocumentBuilder.generatePdfDocument(httpServletResponse.getOutputStream(), startDate, endDate);
         } catch (IOException e) {
             throw new InternalServerErrorException(ERROR_MESSAGE);
         }
