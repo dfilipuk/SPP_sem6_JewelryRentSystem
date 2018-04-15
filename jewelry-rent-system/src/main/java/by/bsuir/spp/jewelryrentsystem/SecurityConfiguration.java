@@ -31,7 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/auth/login"
     };
 
-    private static final String[] allowedUrlsForGet = new String[]{};
+    private static final String[] allowedUrlsForGet = new String[]{
+            "/document/**"
+    };
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final UserDetailsService userDetailsService;
