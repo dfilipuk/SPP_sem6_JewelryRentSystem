@@ -20,85 +20,97 @@ export class BranchCrudComponent implements OnInit {
   @ViewChild('editTemplate')
   public editTemplate: TemplateRef<any>;
 
-  public editedBranch: Branch;
-  public branches: Array<Branch>;
+  public editedItem: Branch;
+  public items: Array<Branch>;
   public isNewRecord: boolean;
   public operationStatus: CrudStatus;
 
   constructor(private service: BranchService) {
-    this.branches = new Array<Branch>();
+    this.items = new Array<Branch>();
   }
 
   ngOnInit() {
-    this.loadBranches();
+    this.loadList();
   }
 
-  private loadBranches() {
-    this.service.getAll().subscribe((data: Branch[]) => {
-      this.branches = data;
-    });
-  }
-
-  addBranch() {
-    this.editedBranch = new Branch(0, "", "");
-    this.branches = [this.editedBranch].concat(this.branches);// .push(this.editedBranch);
-    this.isNewRecord = true;
-  }
-
-  editBranch(branch: Branch) {
-    this.editedBranch = new Branch(branch.id, branch.address, branch.telephone);
-  }
-
-  loadTemplate(branch: Branch) {
-    if (this.editedBranch && this.editedBranch.id == branch.id) {
+  loadTemplate(item: Branch) {
+    if (this.editedItem && this.editedItem.id == item.id) {
       return this.editTemplate;
     } else {
       return this.readOnlyTemplate;
     }
   }
 
-  saveAddedBranch() {
-    this.service.create(this.editedBranch).subscribe(data => {
-      this.operationStatus = CrudStatus.Added;
-      this.loadBranches();
-    }, error => {
-      this.operationStatus = CrudStatus.NotAdded;
-    });
+  addItem() {
+    this.editedItem = new Branch(0, "", "");
+    this.insertItemToList(0, this.editedItem);
+    this.isNewRecord = true;
   }
 
-  saveEditedBranch() {
-    this.service.update(this.editedBranch).subscribe(data => {
-      this.operationStatus = CrudStatus.Updated;
-      this.loadBranches();      
-    }, error => { 
-      this.operationStatus = CrudStatus.NotUpdated;
-    });
+  editItem(item: Branch) {
+    this.editedItem = new Branch(item.id, item.address, item.telephone);
   }
 
-  saveBranch() {
-    if (this.isNewRecord) {
-      this.saveAddedBranch();
-    } else {
-      this.saveEditedBranch();
+  saveItem() {
+    let always = () => {
+      this.editedItem = null;
+      this.isNewRecord = false;
     }
-    this.isNewRecord = false;
-    this.editedBranch = null;
+    this.isNewRecord
+      ? this.saveAddedItem(always)
+      : this.saveEditedItem(always);
   }
 
   cancel() {
     if (this.isNewRecord) {
-      this.branches.pop();
+      this.changeItemInList(this.editedItem.id);
       this.isNewRecord = false;
     }
-    this.editedBranch = null;
+    this.editedItem = null;
   }
 
-  deleteBranch(branch: Branch) {
-    this.service.delete(branch.id).subscribe(data => {
-      this.branches = this.branches.filter(x => x.id != branch.id);
+  deleteItem(item: Branch) {
+    this.service.delete(item.id).subscribe(() => {
+      this.changeItemInList(item.id);
       this.operationStatus = CrudStatus.Deleted;
     }, error => {
       this.operationStatus = CrudStatus.NotDeleted;
     });
+  }
+
+  private loadList() {
+    this.service.getAll().subscribe((items: Branch[]) => {
+      this.items = items;
+    });
+  }
+
+  private saveAddedItem(alwaysFunc: () => void) {
+    this.service.create(this.editedItem).subscribe((id: number) => {
+      let addedItem = new Branch(id, this.editedItem.address, this.editedItem.telephone);
+      this.changeItemInList(this.editedItem.id, addedItem);
+      this.operationStatus = CrudStatus.Added;
+    }, error => {
+      this.operationStatus = CrudStatus.NotAdded;
+    }, alwaysFunc);
+  }
+
+  private saveEditedItem(alwaysFunc: () => void) {
+    this.service.update(this.editedItem).subscribe(() => {
+      this.changeItemInList(this.editedItem.id, this.editedItem);
+      this.operationStatus = CrudStatus.Updated;
+    }, error => {
+      this.operationStatus = CrudStatus.NotUpdated;
+    }, alwaysFunc);
+  }
+
+  private insertItemToList(index: number, item: Branch) {
+    this.items.splice(index, 0, item);
+  }
+
+  private changeItemInList(itemId: number, changedItem?: Branch) {
+    let i = this.items.findIndex(x => x.id == itemId);
+    changedItem == null
+      ? this.items.splice(i, 1)
+      : this.items.splice(i, 1, changedItem);
   }
 }

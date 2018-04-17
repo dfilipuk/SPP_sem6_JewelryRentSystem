@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col s8">
       <h3>
-        <a class="btn-floating waves-effect waves-light" (click)="addBranch()">
+        <a class="btn-floating waves-effect waves-light" (click)="addItem()">
           <i class="material-icons small">add</i>
         </a>
         Branch list
@@ -16,43 +16,50 @@
     <h5 class="col s5">Phone number</h5>
   </div>
 
-  <div class="row" *ngFor="let branch of branches">
-    <ng-template [ngTemplateOutlet]="loadTemplate(branch)" [ngTemplateOutletContext]="{ $implicit: branch}">
+  <div class="row" *ngFor="let item of items">
+    <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item}">
     </ng-template>
   </div>
 
   <crud-message [crudStatus]="operationStatus"></crud-message>
 
-  <ng-template #readOnlyTemplate let-branch>
-    <div class="col s5">{{branch.address}}</div>
-    <div class="col s5">{{branch.telephone}}</div>
+  <ng-template #readOnlyTemplate let-item>
+    <div class="col s5">{{item.address}}</div>
+    <div class="col s5">{{item.telephone}}</div>
     <div class="col s1">
-      <a class="btn btn-floating waves-effect waves-light" (click)="editBranch(branch)">
-          <i class="material-icons small">edit</i>
+      <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
+        <i class="material-icons small">edit</i>
       </a>
     </div>
     <div class="col s1">
-        <a class="btn btn-floating waves-effect waves-light" (click)="deleteBranch(branch)">
-            <i class="material-icons small">delete</i>
-        </a>
+      <a class="btn btn-floating waves-effect waves-light" (click)="deleteItem(item)">
+        <i class="material-icons small">delete</i>
+      </a>
     </div>
   </ng-template>
 
   <ng-template #editTemplate>
     <div class="col s5">
-      <input type="text" [(ngModel)]="editedBranch.address" />
+      <input type="text" [(ngModel)]="editedItem.address" #address="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="address.valid || address.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
     </div>
     <div class="col s5">
-      <input type="tel" [(ngModel)]="editedBranch.telephone" placeholder="(XX)-XXX-XX-XX"/>
+      <input type="tel" [(ngModel)]="editedItem.telephone" placeholder="(XX)-XXX-XX-XX" #telephone="ngModel" required minlength="3"
+        maxlength="255" />
+        <span class="helper-text" [hidden]="telephone.valid || telephone.untouched">
+          *This is a required field. Enter from 3 to 255 characters.
+        </span>
     </div>
     <div class="col s1">
-        <a class="btn btn-floating waves-effect waves-light" (click)="saveBranch()">
-            <i class="material-icons small">save</i>
-        </a>
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid">
+        <i class="material-icons small">save</i>
+      </button>
     </div>
     <div class="col s1">
-        <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
-            <i class="material-icons small">cancel</i>
-        </a>
+      <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
+        <i class="material-icons small">cancel</i>
+      </a>
     </div>
   </ng-template>
