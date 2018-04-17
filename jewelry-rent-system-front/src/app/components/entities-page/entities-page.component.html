@@ -23,8 +23,8 @@
       </ul>
     </div>
     <div id="div-branch" class="col s12">
-      <branch-crud *ngIf="currentUser.isAdmin"></branch-crud>
-      <error-page *ngIf="!currentUser.isAdmin" [code]="401"></error-page>
+      <branch-crud *ngIf="currentUser.user != null && currentUser.isAdmin"></branch-crud>
+      <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="401"></error-page>
     </div>
     <div id="div-client" class="col s12">Test 2</div>
     <div id="div-employee" class="col s12">Test 3</div>
