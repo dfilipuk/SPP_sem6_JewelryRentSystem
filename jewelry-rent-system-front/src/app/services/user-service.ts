@@ -11,7 +11,7 @@ export class UserService extends NetworkService implements IUserService {
 
     isUser: boolean;
     isAdmin: boolean;
-    user: User;
+    user: User = undefined;
 
     constructor(http: Http) {
         super(EnvironmentService.ServerUrl, EnvironmentService.AuthTokenName, http);
@@ -20,12 +20,12 @@ export class UserService extends NetworkService implements IUserService {
 
     updateCurrentUser(): void {
         if (isNullOrUndefined(this.storage.get(this.authTokenName))) {
-            this.setUserValue(null);
+            this.setUserValue();
             return;
         }
         this.getCurrentUser().subscribe(
             data => this.setUserValue(data),
-            error => this.setUserValue(null)
+            error => this.setUserValue()
         );
     }
 
@@ -33,8 +33,8 @@ export class UserService extends NetworkService implements IUserService {
         return this.get("/auth/user");
     }
 
-    private setUserValue(user: User) {
-        this.user = user;
+    private setUserValue(user?: User) {
+        this.user = user == null ? new User() : user;
         this.isUser = !isNullOrUndefined(user);
         this.isAdmin = this.isUser && user.role === "ROLE_ADMIN";
     }
