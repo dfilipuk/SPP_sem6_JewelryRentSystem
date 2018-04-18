@@ -32,7 +32,7 @@
       </a>
     </div>
     <div class="col s1">
-      <a class="btn btn-floating waves-effect waves-light" (click)="deleteItem(item)">
+      <a class="btn btn-floating waves-effect waves-light" (click)="openDeleteModal(item)">
         <i class="material-icons small">delete</i>
       </a>
     </div>
@@ -63,3 +63,14 @@
       </a>
     </div>
   </ng-template>
+
+  <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
+    <div class="modal-content"> 
+      <h4>Are you sure that you really want to delete this item?</h4>
+      <p>The deleted item can not be restored.</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="deleteItem()">Delete</a>
+      <a class="waves-effect waves-green btn-flat" (click)="closeDeleteModal()">Close</a>
+    </div>
+  </div>

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { BranchService } from '../../services/branch-service';
 import { Branch } from '../../models/branch';
 import { TemplateRef, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
 import { CrudStatus } from '../../models/enums/crud-status';
+import { MaterializeAction, MaterializeDirective } from 'angular2-materialize';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'branch-crud',
@@ -19,6 +20,8 @@ export class BranchCrudComponent implements OnInit {
 
   @ViewChild('editTemplate')
   public editTemplate: TemplateRef<any>;
+
+  public deleteModalAction = new EventEmitter<string|MaterializeAction>();
 
   public editedItem: Branch;
   public items: Array<Branch>;
@@ -68,14 +71,24 @@ export class BranchCrudComponent implements OnInit {
     }
     this.editedItem = null;
   }
+  
+  openDeleteModal(item) {
+    this.editedItem = item;
+    this.deleteModalAction.emit({action:"modal",params:['open']});
+  }
 
-  deleteItem(item: Branch) {
-    this.service.delete(item.id).subscribe(() => {
-      this.changeItemInList(item.id);
+  closeDeleteModal() {
+    this.editedItem = null;
+    this.deleteModalAction.emit({action:"modal",params:['close']});
+  }
+
+  private deleteItem() {
+    this.service.delete(this.editedItem.id).subscribe(() => {
+      this.changeItemInList(this.editedItem.id);
       this.operationStatus = CrudStatus.Deleted;
     }, error => {
       this.operationStatus = CrudStatus.NotDeleted;
-    });
+    }, () => this.editedItem = null);
   }
 
   private loadList() {
