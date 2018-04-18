@@ -17,7 +17,7 @@ export abstract class CrudService<T> extends NetworkService implements ICrudServ
     }
 
     create(item: T): Observable<number> {
-        return this.post(this.controllerName + '/create', item);
+        return this.post(this.controllerName + '/create', item).map(x => x.id);
     }
 
     update(item: T): Observable<void> {
