@@ -11,6 +11,8 @@ export class UserService extends NetworkService implements IUserService {
 
     isUser: boolean;
     isAdmin: boolean;
+    isSeller: boolean;
+    isManager: boolean;
     user: User = undefined;
 
     constructor(http: Http) {
@@ -37,5 +39,7 @@ export class UserService extends NetworkService implements IUserService {
         this.user = user == null ? new User() : user;
         this.isUser = !isNullOrUndefined(user);
         this.isAdmin = this.isUser && user.role === "ROLE_ADMIN";
+        this.isSeller = this.isUser && user.role === "ROLE_SELLER";
+        this.isManager = this.isUser && user.role === "ROLE_MANAGER";
     }
 }
