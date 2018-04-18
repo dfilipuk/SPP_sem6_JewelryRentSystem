@@ -12,8 +12,9 @@
   </div>
 
   <div class="row">
-    <h5 class="col s5">Address</h5>
-    <h5 class="col s5">Phone number</h5>
+    <h5 class="col s2">Id</h5>
+    <h5 class="col s4">Address</h5>
+    <h5 class="col s4">Phone number</h5>
   </div>
 
   <div class="row" *ngFor="let item of items">
@@ -24,8 +25,9 @@
   <crud-message [crudStatus]="operationStatus"></crud-message>
 
   <ng-template #readOnlyTemplate let-item>
-    <div class="col s5">{{item.address}}</div>
-    <div class="col s5">{{item.telephone}}</div>
+    <div class="col s2">{{item.id}}</div>
+    <div class="col s4">{{item.address}}</div>
+    <div class="col s4">{{item.telephone}}</div>
     <div class="col s1">
       <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
         <i class="material-icons small">edit</i>
@@ -39,18 +41,21 @@
   </ng-template>
 
   <ng-template #editTemplate>
-    <div class="col s5">
+    <div class="col s2">
+      <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
+    </div>
+    <div class="col s4">
       <input type="text" [(ngModel)]="editedItem.address" #address="ngModel" required minlength="3" maxlength="255" />
       <span class="helper-text" [hidden]="address.valid || address.untouched">
         *This is a required field. Enter from 3 to 255 characters.
       </span>
     </div>
-    <div class="col s5">
+    <div class="col s4">
       <input type="tel" [(ngModel)]="editedItem.telephone" placeholder="(XX)-XXX-XX-XX" #telephone="ngModel" required minlength="3"
         maxlength="255" />
-        <span class="helper-text" [hidden]="telephone.valid || telephone.untouched">
-          *This is a required field. Enter from 3 to 255 characters.
-        </span>
+      <span class="helper-text" [hidden]="telephone.valid || telephone.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
     </div>
     <div class="col s1">
       <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid">
@@ -65,7 +70,7 @@
   </ng-template>
 
   <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
-    <div class="modal-content"> 
+    <div class="modal-content">
       <h4>Are you sure that you really want to delete this item?</h4>
       <p>The deleted item can not be restored.</p>
     </div>
