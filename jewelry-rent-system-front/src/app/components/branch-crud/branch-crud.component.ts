@@ -21,12 +21,13 @@ export class BranchCrudComponent implements OnInit {
   @ViewChild('editTemplate')
   public editTemplate: TemplateRef<any>;
 
-  public deleteModalAction = new EventEmitter<string|MaterializeAction>();
+  public deleteModalAction = new EventEmitter<string | MaterializeAction>();
 
   public editedItem: Branch;
   public items: Array<Branch>;
   public isNewRecord: boolean;
   public operationStatus: CrudStatus;
+  public sorting: string;
 
   constructor(private service: BranchService) {
     this.items = new Array<Branch>();
@@ -41,6 +42,22 @@ export class BranchCrudComponent implements OnInit {
       return this.editTemplate;
     } else {
       return this.readOnlyTemplate;
+    }
+  }
+
+  sort() {
+    switch (this.sorting) {
+      case "Id":
+        this.items.sort((a, b) => this.sortCompare(a.id, b.id));
+        return;
+      case "Address":
+        this.items.sort((a, b) => this.sortCompare(a.address, b.address));
+        return;
+      case "Telephone":
+        this.items.sort((a, b) => this.sortCompare(a.telephone, b.telephone));
+        return;
+      default:
+        return;
     }
   }
 
@@ -71,15 +88,15 @@ export class BranchCrudComponent implements OnInit {
     }
     this.editedItem = null;
   }
-  
+
   openDeleteModal(item) {
     this.editedItem = item;
-    this.deleteModalAction.emit({action:"modal",params:['open']});
+    this.deleteModalAction.emit({ action: "modal", params: ['open'] });
   }
 
   closeDeleteModal() {
     this.editedItem = null;
-    this.deleteModalAction.emit({action:"modal",params:['close']});
+    this.deleteModalAction.emit({ action: "modal", params: ['close'] });
   }
 
   private deleteItem() {
@@ -122,8 +139,19 @@ export class BranchCrudComponent implements OnInit {
 
   private changeItemInList(itemId: number, changedItem?: Branch) {
     let i = this.items.findIndex(x => x.id == itemId);
-    changedItem == null
-      ? this.items.splice(i, 1)
-      : this.items.splice(i, 1, changedItem);
+    if (changedItem == null) {
+      this.items.splice(i, 1);
+      return;
+    }
+    this.items.splice(i, 1, changedItem);
+    this.sort();
+  }
+
+  private sortCompare(a: any, b: any) {
+    return a > b
+      ? 1
+      : a < b
+        ? -1
+        : 0;
   }
 }
