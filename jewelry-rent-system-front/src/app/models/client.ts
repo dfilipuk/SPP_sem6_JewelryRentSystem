@@ -1,9 +1,10 @@
-export class Client{
-    id: number;
-    name: string;
-    surname: string;
-    secondName: string;
-    passportNumber: string;
-    address: string;
-    telephone: string;
+export class Client {
+    constructor(
+        public id: number,
+        public name: string,
+        public surname: string,
+        public secondName: string,
+        public passportNumber: string,
+        public address: string,
+        public telephone: string) { }
 }

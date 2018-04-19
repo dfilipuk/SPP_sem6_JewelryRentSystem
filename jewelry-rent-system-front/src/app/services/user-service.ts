@@ -39,7 +39,7 @@ export class UserService extends NetworkService implements IUserService {
         this.user = user == null ? new User() : user;
         this.isUser = !isNullOrUndefined(user);
         this.isAdmin = this.isUser && user.role === "ROLE_ADMIN";
-        this.isSeller = this.isUser && user.role === "ROLE_SELLER";
-        this.isManager = this.isUser && user.role === "ROLE_MANAGER";
+        this.isSeller = this.isAdmin || this.isUser && user.role === "ROLE_SELLER";
+        this.isManager = this.isAdmin || this.isUser && user.role === "ROLE_MANAGER";
     }
 }
