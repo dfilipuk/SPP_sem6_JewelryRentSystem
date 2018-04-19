@@ -18,6 +18,7 @@ import { AuthorizationService } from './services/auth-service';
 import { UserService } from './services/user-service';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ClientCrudComponent } from './components/client-crud/client-crud.component';
+import { EmployeeCrudComponent } from './employee-crud/employee-crud.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ClientCrudComponent } from './components/client-crud/client-crud.compon
     CrudMessageComponent,
     ErrorPageComponent,
     ClientCrudComponent,
+    EmployeeCrudComponent,
   ],
   imports: [
     BrowserModule,
