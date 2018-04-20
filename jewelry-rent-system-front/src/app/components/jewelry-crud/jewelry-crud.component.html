@@ -1,3 +1,148 @@
-<p>
-  jewelry-crud works!
-</p>
+<div class="container">
+    <div class="row">
+      <div class="col offset-s2 s5">
+        <h3>
+          <a class="btn-floating waves-effect waves-light" (click)="addItem()">
+            <i class="material-icons small">add</i>
+          </a>
+          Jewelry list
+        </h3>
+      </div>
+      <div class="input-field col s3">
+        <select [(ngModel)]="sorting" (change)="sort()" materialize="material_select" [materializeSelectOptions]="selectOptions">
+          <option value="" disabled selected>Choose sorting</option>
+          <option value="Id">Id</option>
+          <option value="Name">Name</option>
+          <option value="Producer">Producer</option>
+          <option value="Branch ID">Branch ID</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="row">
+      <h5 class="col s1">Id</h5>
+      <h5 class="col s1">Name</h5>
+      <h5 class="col s1">Producer</h5>
+      <h5 class="col s1">Picture URL</h5>
+      <h5 class="col s1">Type</h5>
+      <h5 class="col s1">Weight</h5>
+      <h5 class="col s1">Status</h5>
+      <h5 class="col s1">Cost per day</h5>
+      <h5 class="col s1">Branch ID</h5>
+      <h5 class="col s1">Materials ID</h5>
+    </div>
+  
+    <div class="row" *ngFor="let item of items">
+      <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item }">
+      </ng-template>
+    </div>
+  
+    <crud-message [crudStatus]="operationStatus"></crud-message>
+  
+    <ng-template #readOnlyTemplate let-item>
+      <div class="col s1">{{item.id}}</div>
+      <div class="col s1">{{item.name}}</div>
+      <div class="col s1">{{item.producer}}</div>
+      <div class="col s1">{{item.pictureUrl}}</div>
+      <div class="col s1">{{item.type}}</div>
+      <div class="col s1">{{item.weight}}</div>
+      <div class="col s1">{{item.status}}</div>
+      <div class="col s1">{{item.costPerDay}}</div>
+      <div class="col s1">{{item.branchId}}</div>
+      <div class="col s1">{{convertMaterialIdsToStr(item.materialsId)}}</div>
+      <div class="col s1 right-align">
+        <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
+          <i class="material-icons small">edit</i>
+        </a>
+      </div>
+      <div class="col s1">
+        <a class="btn btn-floating waves-effect waves-light" (click)="openDeleteModal(item)">
+          <i class="material-icons small">delete</i>
+        </a>
+      </div>
+    </ng-template>
+  
+    <ng-template #editTemplate>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
+      </div>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="editedItem.name" #name="ngModel" required minlength="3" maxlength="255" />
+        <span class="helper-text" [hidden]="name.valid || name.untouched">
+          *This is a required field. Enter from 3 to 255 characters.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="editedItem.producer" #producer="ngModel" required minlength="3" maxlength="255" />
+        <span class="helper-text" [hidden]="producer.valid || producer.untouched">
+          *This is a required field. Enter from 3 to 255 characters.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="editedItem.pictureUrl" #pictureUrl="ngModel" required minlength="3" maxlength="255" />
+        <span class="helper-text" [hidden]="pictureUrl.valid || pictureUrl.untouched">
+          *This is a required field. Enter from 3 to 255 characters.
+        </span>
+      </div>
+      <div class="col s1">
+        <select [(ngModel)]="type" required materialize="material_select" [materializeSelectOptions]="selectOptions">
+          <option>Earring</option>
+          <option>Ring</option>
+          <option>Necklace</option>
+          <option>Bracelet</option>
+        </select>
+      </div>
+      <div class="col s1">
+        <input type="number" [(ngModel)]="editedItem.weight" #weight="ngModel" min="0" max="1000000000" required/>
+        <span class="helper-text" [hidden]="weight.valid || weight.untouched">
+          *Min value is 0.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="editedItem.status" #status="ngModel" required minlength="3" maxlength="255" />
+        <span class="helper-text" [hidden]="status.valid || status.untouched">
+          *This is a required field. Enter from 3 to 255 characters.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="number" [(ngModel)]="editedItem.costPerDay" #costPerDay="ngModel" min="0" max="1000000000" required/>
+        <span class="helper-text" [hidden]="costPerDay.valid || costPerDay.untouched">
+          *Min value is 0.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="number" [(ngModel)]="editedItem.branchId" #branchId="ngModel" min="1" max="1000000000" required/>
+        <span class="helper-text" [hidden]="branchId.valid || branchId.untouched">
+          *Min value is 1.
+        </span>
+      </div>
+      <div class="col s1">
+        <input type="text" [(ngModel)]="materialsStr" (change)="convertMaterialStrToIds()" #materialsId="ngModel" required/>
+        <span class="helper-text" [hidden]="editedItem.materialsIds.length > 0 || materialsId.untouched">
+          *This is a required field. Enter numbers separated by commas.
+        </span>
+      </div>
+      <div class="col s1 right-align">
+        <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" 
+        [disabled]="editedItem.materialsIds.length <= 0 || branchId.invalid || costPerDay.invalid || status.invalid || weight.invalid || name.invalid || producer.invalid || pictureUrl.invalid">
+          <i class="material-icons small">save</i>
+        </button>
+      </div>
+      <div class="col s1">
+        <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
+          <i class="material-icons small">cancel</i>
+        </a>
+      </div>
+    </ng-template>
+  
+    <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
+      <div class="modal-content">
+        <h4>Are you sure that you really want to delete this item?</h4>
+        <p>The deleted item can not be restored.</p>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="deleteItem()">Delete</a>
+        <a class="waves-effect waves-green btn-flat" (click)="closeDeleteModal()">Close</a>
+      </div>
+    </div>
+  </div>
