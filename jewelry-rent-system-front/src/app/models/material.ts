@@ -1,6 +1,7 @@
 export class Material {
-    id: number;
-    name: string;
-    description: string;
-    parentMaterialId: number;
+    constructor(
+        public id: number,
+        public name: string,
+        public description: string,
+        public parentMaterialId: number) { }
 }
