@@ -34,7 +34,10 @@
       <employee-crud *ngIf="currentUser.user != null && currentUser.isAdmin"></employee-crud>
       <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="403"></error-page>
     </div>
-    <div id="div-jewelry" class="col s12">Test 4</div>
+    <div id="div-jewelry" class="col s12">
+      <jewelry-crud *ngIf="currentUser.user != null && currentUser.isAdmin"></jewelry-crud>
+      <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="403"></error-page>
+    </div>
     <div id="div-material" class="col s12">
       <material-crud *ngIf="currentUser.user != null && currentUser.isAdmin"></material-crud>
       <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="403"></error-page>
