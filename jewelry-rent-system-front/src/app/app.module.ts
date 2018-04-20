@@ -18,7 +18,8 @@ import { AuthorizationService } from './services/auth-service';
 import { UserService } from './services/user-service';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { ClientCrudComponent } from './components/client-crud/client-crud.component';
-import { EmployeeCrudComponent } from './employee-crud/employee-crud.component';
+import { EmployeeCrudComponent } from './components/employee-crud/employee-crud.component';
+import { MaterialCrudComponent } from './components/material-crud/material-crud.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { EmployeeCrudComponent } from './employee-crud/employee-crud.component';
     ErrorPageComponent,
     ClientCrudComponent,
     EmployeeCrudComponent,
+    MaterialCrudComponent,
   ],
   imports: [
     BrowserModule,
