@@ -1,0 +1,123 @@
+<div class="container">
+  <div class="row">
+    <div class="col offset-s2 s5">
+      <h3>
+        <a class="btn-floating waves-effect waves-light" (click)="addItem()">
+          <i class="material-icons small">add</i>
+        </a>
+        Client list
+      </h3>
+    </div>
+    <div class="input-field col s3">
+      <select [(ngModel)]="sorting" (change)="sort()" materialize="material_select" [materializeSelectOptions]="selectOptions">
+        <option value="" disabled selected>Choose sorting</option>
+        <option value="Id">Id</option>
+        <option value="Name">Name</option>
+        <option value="Second name">Second name</option>
+        <option value="Address">Address</option>
+        <option value="Telephone">Telephone</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5 class="col s1">Id</h5>
+    <h5 class="col s1">Name</h5>
+    <h5 class="col s2">Surname</h5>
+    <h5 class="col s1">Second name</h5>
+    <h5 class="col s2">Passport number</h5>
+    <h5 class="col s2">Address</h5>
+    <h5 class="col s1">Phone number</h5>
+  </div>
+
+  <div class="row" *ngFor="let item of items">
+    <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item }">
+    </ng-template>
+  </div>
+
+  <crud-message [crudStatus]="operationStatus"></crud-message>
+
+  <ng-template #readOnlyTemplate let-item>
+    <div class="col s1">{{item.id}}</div>
+    <div class="col s1">{{item.name}}</div>
+    <div class="col s2">{{item.surname}}</div>
+    <div class="col s1">{{item.secondName}}</div>
+    <div class="col s2">{{item.passportNumber}}</div>
+    <div class="col s2">{{item.address}}</div>
+    <div class="col s1">{{item.telephone}}</div>
+    <div class="col s1 right-align">
+      <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
+        <i class="material-icons small">edit</i>
+      </a>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="openDeleteModal(item)">
+        <i class="material-icons small">delete</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template #editTemplate>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.name" #name="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="name.valid || name.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s2">
+      <input type="text" [(ngModel)]="editedItem.surname" #surname="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="surname.valid || surname.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.secondName" #secondName="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="secondName.valid || secondName.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s2">
+      <input type="text" [(ngModel)]="editedItem.passportNumber" #passportNumber="ngModel" required minlength="7" maxlength="255" />
+      <span class="helper-text" [hidden]="passportNumber.valid || passportNumber.untouched">
+        *This is a required field. Enter from 7 to 255 characters.
+      </span>
+    </div>
+    <div class="col s2">
+      <input type="text" [(ngModel)]="editedItem.address" #address="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="address.valid || address.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="tel" [(ngModel)]="editedItem.telephone" placeholder="(XX)-XXX-XX-XX" #telephone="ngModel" required minlength="7"
+        maxlength="255" />
+      <span class="helper-text" [hidden]="telephone.valid || telephone.untouched">
+        *This is a required field. Enter from 7 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1 right-align">
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid || passportNumber.invalid || secondName.invalid  || surname.invalid || name.invalid">
+        <i class="material-icons small">save</i>
+      </button>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
+        <i class="material-icons small">cancel</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
+    <div class="modal-content">
+      <h4>Are you sure that you really want to delete this item?</h4>
+      <p>The deleted item can not be restored.</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="deleteItem()">Delete</a>
+      <a class="waves-effect waves-green btn-flat" (click)="closeDeleteModal()">Close</a>
+    </div>
+  </div>
+</div>

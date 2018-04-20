@@ -1,3 +1,5 @@
+import 'materialize-css';
+import { MaterializeModule } from 'angular2-materialize';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
@@ -15,6 +17,11 @@ import { CrudMessageComponent } from './components/crud-message/crud-message.com
 import { AuthorizationService } from './services/auth-service';
 import { UserService } from './services/user-service';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { ClientCrudComponent } from './components/client-crud/client-crud.component';
+import { EmployeeCrudComponent } from './components/employee-crud/employee-crud.component';
+import { MaterialCrudComponent } from './components/material-crud/material-crud.component';
+import { OrderCrudComponent } from './components/order-crud/order-crud.component';
+import { JewelryCrudComponent } from './components/jewelry-crud/jewelry-crud.component';
 
 
 @NgModule({
@@ -26,13 +33,19 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     DocumentsPageComponent,
     BranchCrudComponent,
     CrudMessageComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    ClientCrudComponent,
+    EmployeeCrudComponent,
+    MaterialCrudComponent,
+    OrderCrudComponent,
+    JewelryCrudComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    MaterializeModule
   ],
   providers: [
     AuthorizationService,

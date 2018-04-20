@@ -1,19 +1,16 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { BranchService } from '../../services/branch-service';
-import { Branch } from '../../models/branch';
-import { TemplateRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit, ViewChild, TemplateRef, EventEmitter } from '@angular/core';
+import { JewelryService } from '../../services/jewelry-service';
+import { Jewelry } from '../../models/jewelry';
+import { MaterializeAction } from 'angular2-materialize';
 import { CrudStatus } from '../../models/enums/crud-status';
-import { MaterializeAction, MaterializeDirective } from 'angular2-materialize';
-import 'rxjs/Rx';
 
 @Component({
-  selector: 'branch-crud',
-  templateUrl: './branch-crud.component.html',
-  styleUrls: ['./branch-crud.component.css'],
-  providers: [BranchService]
+  selector: 'jewelry-crud',
+  templateUrl: './jewelry-crud.component.html',
+  styleUrls: ['./jewelry-crud.component.css'],
+  providers: [JewelryService]
 })
-export class BranchCrudComponent implements OnInit {
+export class JewelryCrudComponent implements OnInit {
 
   @ViewChild('readOnlyTemplate')
   public readOnlyTemplate: TemplateRef<any>;
@@ -22,22 +19,25 @@ export class BranchCrudComponent implements OnInit {
   public editTemplate: TemplateRef<any>;
 
   public deleteModalAction = new EventEmitter<string | MaterializeAction>();
+  public type: string;
+  public materialsStr: string;
+  public materialSpliter = ",";
 
-  public editedItem: Branch;
-  public items: Array<Branch>;
+  public editedItem: Jewelry;
+  public items: Array<Jewelry>;
   public isNewRecord: boolean;
   public operationStatus: CrudStatus;
   public sorting: string;
 
-  constructor(private service: BranchService) {
-    this.items = new Array<Branch>();
+  constructor(private service: JewelryService) {
+    this.items = new Array<Jewelry>();
   }
 
   ngOnInit() {
     this.loadList();
   }
 
-  loadTemplate(item: Branch) {
+  loadTemplate(item: Jewelry) {
     if (this.editedItem && this.editedItem.id == item.id) {
       return this.editTemplate;
     } else {
@@ -45,16 +45,34 @@ export class BranchCrudComponent implements OnInit {
     }
   }
 
+  convertMaterialStrToIds() {
+    this.editedItem.materialsIds = this.materialsStr.split(this.materialSpliter)
+      .map(x => Number(x.trim()))
+      .filter(x => !isNaN(x));
+  }
+
+  convertMaterialIdsToStr(materialsIds: number[]) {
+    return materialsIds === undefined
+      ? ""
+      : materialsIds.join(this.materialSpliter);
+  }
+
   sort() {
     switch (this.sorting) {
       case "Id":
         this.items.sort((a, b) => this.sortCompare(a.id, b.id));
         return;
-      case "Address":
-        this.items.sort((a, b) => this.sortCompare(a.address, b.address));
+      case "Type":
+        this.items.sort((a, b) => this.sortCompare(a.type, b.type));
         return;
-      case "Telephone":
-        this.items.sort((a, b) => this.sortCompare(a.telephone, b.telephone));
+      case "Name":
+        this.items.sort((a, b) => this.sortCompare(a.name, b.name));
+        return;
+      case "Producer":
+        this.items.sort((a, b) => this.sortCompare(a.producer, b.producer));
+        return;
+      case "Branch ID":
+        this.items.sort((a, b) => this.sortCompare(a.branchId, b.branchId));
         return;
       default:
         return;
@@ -62,16 +80,20 @@ export class BranchCrudComponent implements OnInit {
   }
 
   addItem() {
-    this.editedItem = new Branch(0, "", "");
+    this.editedItem = new Jewelry(0, "", "", "Description", "", "Earring", 0, "", 0, 1, 1, []);
+    this.type = this.editedItem.type;
     this.insertItemToList(0, this.editedItem);
     this.isNewRecord = true;
   }
 
-  editItem(item: Branch) {
-    this.editedItem = new Branch(item.id, item.address, item.telephone);
+  editItem(item: Jewelry) {
+    this.editedItem = new Jewelry(item.id, item.name, item.producer, item.description, item.pictureUrl,
+      item.type, item.weight, item.status, item.costPerDay, item.daysRental, item.branchId, item.materialsIds);
+    this.type = this.editedItem.type;
   }
 
   saveItem() {
+    this.editedItem.type = this.type;
     let always = () => {
       this.editedItem = null;
       this.isNewRecord = false;
@@ -109,14 +131,16 @@ export class BranchCrudComponent implements OnInit {
   }
 
   private loadList() {
-    this.service.getAll().subscribe((items: Branch[]) => {
+    this.service.getAll().subscribe((items: Jewelry[]) => {
       this.items = items;
     });
   }
 
   private saveAddedItem(alwaysFunc: () => void) {
     this.service.create(this.editedItem).subscribe((id: number) => {
-      let addedItem = new Branch(id, this.editedItem.address, this.editedItem.telephone);
+      let addedItem = new Jewelry(id, this.editedItem.name, this.editedItem.producer, this.editedItem.description,
+        this.editedItem.pictureUrl, this.editedItem.type, this.editedItem.weight, this.editedItem.status,
+        this.editedItem.costPerDay, this.editedItem.daysRental, this.editedItem.branchId, this.editedItem.materialsIds);
       this.changeItemInList(this.editedItem.id, addedItem);
       this.operationStatus = CrudStatus.Added;
     }, error => {
@@ -133,11 +157,11 @@ export class BranchCrudComponent implements OnInit {
     }, alwaysFunc);
   }
 
-  private insertItemToList(index: number, item: Branch) {
+  private insertItemToList(index: number, item: Jewelry) {
     this.items.splice(index, 0, item);
   }
 
-  private changeItemInList(itemId: number, changedItem?: Branch) {
+  private changeItemInList(itemId: number, changedItem?: Jewelry) {
     let i = this.items.findIndex(x => x.id == itemId);
     if (changedItem == null) {
       this.items.splice(i, 1);
@@ -154,4 +178,5 @@ export class BranchCrudComponent implements OnInit {
         ? -1
         : 0;
   }
+
 }

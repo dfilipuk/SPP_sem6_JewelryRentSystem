@@ -16,3 +16,7 @@ app {
     display: flex;
     flex-direction: column;
 }
+
+.helper-text {
+    color: red;
+}

@@ -1,20 +1,16 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { BranchService } from '../../services/branch-service';
-import { Branch } from '../../models/branch';
-import { TemplateRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit, ViewChild, TemplateRef, EventEmitter } from '@angular/core';
+import { MaterializeAction } from 'angular2-materialize';
+import { Client } from '../../models/client';
 import { CrudStatus } from '../../models/enums/crud-status';
-import { MaterializeAction, MaterializeDirective } from 'angular2-materialize';
-import 'rxjs/Rx';
+import { ClientService } from '../../services/client-service';
 
 @Component({
-  selector: 'branch-crud',
-  templateUrl: './branch-crud.component.html',
-  styleUrls: ['./branch-crud.component.css'],
-  providers: [BranchService]
+  selector: 'client-crud',
+  templateUrl: './client-crud.component.html',
+  styleUrls: ['./client-crud.component.css'],
+  providers: [ClientService]
 })
-export class BranchCrudComponent implements OnInit {
-
+export class ClientCrudComponent implements OnInit {
   @ViewChild('readOnlyTemplate')
   public readOnlyTemplate: TemplateRef<any>;
 
@@ -23,21 +19,21 @@ export class BranchCrudComponent implements OnInit {
 
   public deleteModalAction = new EventEmitter<string | MaterializeAction>();
 
-  public editedItem: Branch;
-  public items: Array<Branch>;
+  public editedItem: Client;
+  public items: Array<Client>;
   public isNewRecord: boolean;
   public operationStatus: CrudStatus;
   public sorting: string;
 
-  constructor(private service: BranchService) {
-    this.items = new Array<Branch>();
+  constructor(private service: ClientService) {
+    this.items = new Array<Client>();
   }
 
   ngOnInit() {
     this.loadList();
   }
 
-  loadTemplate(item: Branch) {
+  loadTemplate(item: Client) {
     if (this.editedItem && this.editedItem.id == item.id) {
       return this.editTemplate;
     } else {
@@ -49,6 +45,12 @@ export class BranchCrudComponent implements OnInit {
     switch (this.sorting) {
       case "Id":
         this.items.sort((a, b) => this.sortCompare(a.id, b.id));
+        return;
+      case "Name":
+        this.items.sort((a, b) => this.sortCompare(a.name, b.name));
+        return;
+      case "Second name":
+        this.items.sort((a, b) => this.sortCompare(a.secondName, b.secondName));
         return;
       case "Address":
         this.items.sort((a, b) => this.sortCompare(a.address, b.address));
@@ -62,13 +64,14 @@ export class BranchCrudComponent implements OnInit {
   }
 
   addItem() {
-    this.editedItem = new Branch(0, "", "");
+    this.editedItem = new Client(0, "", "", "", "", "", "");
     this.insertItemToList(0, this.editedItem);
     this.isNewRecord = true;
   }
 
-  editItem(item: Branch) {
-    this.editedItem = new Branch(item.id, item.address, item.telephone);
+  editItem(item: Client) {
+    this.editedItem = new Client(item.id, item.name, item.surname, item.secondName,
+      item.passportNumber, item.address, item.telephone);
   }
 
   saveItem() {
@@ -109,14 +112,15 @@ export class BranchCrudComponent implements OnInit {
   }
 
   private loadList() {
-    this.service.getAll().subscribe((items: Branch[]) => {
+    this.service.getAll().subscribe((items: Client[]) => {
       this.items = items;
     });
   }
 
   private saveAddedItem(alwaysFunc: () => void) {
     this.service.create(this.editedItem).subscribe((id: number) => {
-      let addedItem = new Branch(id, this.editedItem.address, this.editedItem.telephone);
+      let addedItem = new Client(id, this.editedItem.name, this.editedItem.surname,
+        this.editedItem.secondName, this.editedItem.passportNumber, this.editedItem.address, this.editedItem.telephone);
       this.changeItemInList(this.editedItem.id, addedItem);
       this.operationStatus = CrudStatus.Added;
     }, error => {
@@ -133,11 +137,11 @@ export class BranchCrudComponent implements OnInit {
     }, alwaysFunc);
   }
 
-  private insertItemToList(index: number, item: Branch) {
+  private insertItemToList(index: number, item: Client) {
     this.items.splice(index, 0, item);
   }
 
-  private changeItemInList(itemId: number, changedItem?: Branch) {
+  private changeItemInList(itemId: number, changedItem?: Client) {
     let i = this.items.findIndex(x => x.id == itemId);
     if (changedItem == null) {
       this.items.splice(i, 1);

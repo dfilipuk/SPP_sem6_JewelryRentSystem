@@ -1,0 +1,133 @@
+<div class="container">
+  <div class="row">
+    <div class="col offset-s2 s5">
+      <h3>
+        <a class="btn-floating waves-effect waves-light" (click)="addItem()">
+          <i class="material-icons small">add</i>
+        </a>
+        Order list
+      </h3>
+    </div>
+    <div class="input-field col s3">
+      <select [(ngModel)]="sorting" (change)="sort()" materialize="material_select" [materializeSelectOptions]="selectOptions">
+        <option value="" disabled selected>Choose sorting</option>
+        <option value="Id">Id</option>
+        <option value="Rent date">Rent date</option>
+        <option value="Cost">Cost</option>
+        <option value="Client ID">Client ID</option>
+        <option value="Employee ID">Employee ID</option>
+        <option value="Jewelry ID">Jewelry ID</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5 class="col s1">Id</h5>
+    <h5 class="col s2">Status</h5>
+    <h5 class="col s1">Rent date</h5>
+    <h5 class="col s1">Days rent</h5>
+    <h5 class="col s1">Cost</h5>
+    <h5 class="col s1">Client ID</h5>
+    <h5 class="col s2">Employee ID</h5>
+    <h5 class="col s1">Jewelry ID</h5>
+  </div>
+
+  <div class="row" *ngFor="let item of items">
+    <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item }">
+    </ng-template>
+  </div>
+
+  <crud-message [crudStatus]="operationStatus"></crud-message>
+
+  <ng-template #readOnlyTemplate let-item>
+    <div class="col s1">{{item.id}}</div>
+    <div class="col s2">{{item.status}}</div>
+    <div class="col s1">{{item.rentDate}}</div>
+    <div class="col s1">{{item.daysRent}}</div>
+    <div class="col s1">{{item.cost}}</div>
+    <div class="col s1">{{item.clientId}}</div>
+    <div class="col s2">{{item.employeeId}}</div>
+    <div class="col s1">{{item.jewelryId}}</div>
+    <div class="col s1 right-align">
+      <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
+        <i class="material-icons small">edit</i>
+      </a>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="openDeleteModal(item)">
+        <i class="material-icons small">delete</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template #editTemplate>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
+    </div>
+    <div class="col s2">
+      <input type="text" [(ngModel)]="editedItem.status" #status="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="status.valid || status.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input name="rentDate" [(ngModel)]="rentDateValue" materialize="pickadate" [materializeActions]="rentDateAction" [materializeParams]="[{format: 'yyyy-mm-dd'}]"
+        type="text" #rentDate="ngModel" required/>
+      <span class="helper-text" [hidden]="rentDate.valid || rentDate.untouched">
+        *This is a required field.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.daysRent" #daysRent="ngModel" min="1" max="1000000000" />
+      <span class="helper-text" [hidden]="daysRent.valid || daysRent.untouched">
+        *Min value is 1.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.cost" #cost="ngModel" min="0" max="1000000000" />
+      <span class="helper-text" [hidden]="cost.valid || cost.untouched">
+        *Min value is 0.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.clientId" #clientId="ngModel" min="1" max="1000000000" />
+      <span class="helper-text" [hidden]="clientId.valid || clientId.untouched">
+        *Min value is 1.
+      </span>
+    </div>
+    <div class="col s2">
+      <input type="number" [(ngModel)]="editedItem.employeeId" #employeeId="ngModel" min="1" max="1000000000" />
+      <span class="helper-text" [hidden]="employeeId.valid || employeeId.untouched">
+        *Min value is 1.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.jewelryId" #jewelryId="ngModel" min="1" max="1000000000" />
+      <span class="helper-text" [hidden]="jewelryId.valid || jewelryId.untouched">
+        *Min value is 1.
+      </span>
+    </div>
+
+    <div class="col s1 right-align">
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="status.invalid || rentDate.invalid || daysRent.invalid || cost.invalid  || clientId.invalid || employeeId.invalid || jewelryId.invalid">
+        <i class="material-icons small">save</i>
+      </button>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
+        <i class="material-icons small">cancel</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
+    <div class="modal-content">
+      <h4>Are you sure that you really want to delete this item?</h4>
+      <p>The deleted item can not be restored.</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="deleteItem()">Delete</a>
+      <a class="waves-effect waves-green btn-flat" (click)="closeDeleteModal()">Close</a>
+    </div>
+  </div>
+</div>
