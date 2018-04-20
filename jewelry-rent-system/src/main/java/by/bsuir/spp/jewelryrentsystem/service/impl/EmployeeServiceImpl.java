@@ -163,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLogin(employeeDto.getLogin());
         employee.setRole(employeeDto.getRole());
 
-        if (employeeDto.getPassword() != null) {
+        if (!employeeDto.getPassword().equals("")) {
             employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         }
 
