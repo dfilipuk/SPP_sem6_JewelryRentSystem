@@ -1,11 +1,11 @@
 <header>
   <nav class="nav-wrapper-cotainer">
     <div class="container">
-      <a href="#" data-activates="nav-mobile" class="button-collapse" *ngIf="currentUser.isUser">
+      <a href="#" data-activates="nav-mobile" class="button-collapse" *ngIf="currentUser.user != null && currentUser.isUser">
         <i class="material-icons">menu</i>
       </a>
       <a href="" class="brand-logo center"> Jewelry Rent System </a>
-      <ul class="left hide-on-med-and-down" *ngIf="currentUser.isUser">
+      <ul class="left hide-on-med-and-down" *ngIf="currentUser.user != null && currentUser.isUser">
         <li>
           <a href="/entities">Entities</a>
         </li>
@@ -14,19 +14,19 @@
         </li>
       </ul>
       <ul class="right hide-on-med-and-down">
-        <li *ngIf="currentUser.isUser">
+        <li *ngIf="currentUser.user != null && currentUser.isUser">
           <a class="dropdown-button" href="#!" data-activates="user-nav"> Hello, {{currentUser.user.login}}! </a>
         </li>
-        <li *ngIf="!currentUser.isUser">
+        <li *ngIf="currentUser.user != null && !currentUser.isUser">
           <a class="dropdown-button" href="/" data-activates="user-nav"> Login </a>
         </li>
       </ul>
-      <ul id="user-nav" class="dropdown-content" *ngIf="currentUser.isUser">
+      <ul id="user-nav" class="dropdown-content" *ngIf="currentUser.user != null && currentUser.isUser">
         <li>
           <a href="" (click)="logout()">Logout</a>
         </li>
       </ul>
-      <ul id="nav-mobile" class="side-nav" *ngIf="currentUser.isUser">
+      <ul id="nav-mobile" class="side-nav" *ngIf="currentUser.user != null && currentUser.isUser">
         <li>
           <a href="/entities">Entities</a>
         </li>

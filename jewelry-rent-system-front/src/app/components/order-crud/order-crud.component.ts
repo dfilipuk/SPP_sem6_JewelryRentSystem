@@ -1,19 +1,16 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { BranchService } from '../../services/branch-service';
-import { Branch } from '../../models/branch';
-import { TemplateRef, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit, ViewChild, TemplateRef, EventEmitter } from '@angular/core';
+import { OrderService } from '../../services/order-service';
+import { MaterializeAction } from 'angular2-materialize';
 import { CrudStatus } from '../../models/enums/crud-status';
-import { MaterializeAction, MaterializeDirective } from 'angular2-materialize';
-import 'rxjs/Rx';
+import { Order } from '../../models/order';
 
 @Component({
-  selector: 'branch-crud',
-  templateUrl: './branch-crud.component.html',
-  styleUrls: ['./branch-crud.component.css'],
-  providers: [BranchService]
+  selector: 'order-crud',
+  templateUrl: './order-crud.component.html',
+  styleUrls: ['./order-crud.component.css'],
+  providers: [OrderService]
 })
-export class BranchCrudComponent implements OnInit {
+export class OrderCrudComponent implements OnInit {
 
   @ViewChild('readOnlyTemplate')
   public readOnlyTemplate: TemplateRef<any>;
@@ -22,22 +19,24 @@ export class BranchCrudComponent implements OnInit {
   public editTemplate: TemplateRef<any>;
 
   public deleteModalAction = new EventEmitter<string | MaterializeAction>();
+  public rentDateAction = new EventEmitter<string | MaterializeAction>();
+  public rentDateValue: string;
 
-  public editedItem: Branch;
-  public items: Array<Branch>;
+  public editedItem: Order;
+  public items: Array<Order>;
   public isNewRecord: boolean;
   public operationStatus: CrudStatus;
   public sorting: string;
 
-  constructor(private service: BranchService) {
-    this.items = new Array<Branch>();
+  constructor(private service: OrderService) {
+    this.items = new Array<Order>();
   }
 
   ngOnInit() {
     this.loadList();
   }
 
-  loadTemplate(item: Branch) {
+  loadTemplate(item: Order) {
     if (this.editedItem && this.editedItem.id == item.id) {
       return this.editTemplate;
     } else {
@@ -50,11 +49,20 @@ export class BranchCrudComponent implements OnInit {
       case "Id":
         this.items.sort((a, b) => this.sortCompare(a.id, b.id));
         return;
-      case "Address":
-        this.items.sort((a, b) => this.sortCompare(a.address, b.address));
+      case "Rent date":
+        this.items.sort((a, b) => this.sortCompare(a.rentDate, b.rentDate));
         return;
-      case "Telephone":
-        this.items.sort((a, b) => this.sortCompare(a.telephone, b.telephone));
+      case "Cost":
+        this.items.sort((a, b) => this.sortCompare(a.cost, b.cost));
+        return;
+      case "Client ID":
+        this.items.sort((a, b) => this.sortCompare(a.clientId, b.clientId));
+        return;
+      case "Employee ID":
+        this.items.sort((a, b) => this.sortCompare(a.employeeId, b.employeeId));
+        return;
+      case "Jewelry ID":
+        this.items.sort((a, b) => this.sortCompare(a.jewelryId, b.jewelryId));
         return;
       default:
         return;
@@ -62,16 +70,20 @@ export class BranchCrudComponent implements OnInit {
   }
 
   addItem() {
-    this.editedItem = new Branch(0, "", "");
+    this.editedItem = new Order(0, "", "", 1, 0, 1, 1, 1);
+    this.rentDateValue = this.editedItem.rentDate;
     this.insertItemToList(0, this.editedItem);
     this.isNewRecord = true;
   }
 
-  editItem(item: Branch) {
-    this.editedItem = new Branch(item.id, item.address, item.telephone);
+  editItem(item: Order) {
+    this.editedItem = new Order(item.id, item.status, item.rentDate, item.daysRent, item.cost,
+      item.clientId, item.employeeId, item.jewelryId);
+    this.rentDateValue = this.editedItem.rentDate;
   }
 
   saveItem() {
+    this.editedItem.rentDate = this.rentDateValue + " 00:00";
     let always = () => {
       this.editedItem = null;
       this.isNewRecord = false;
@@ -109,14 +121,16 @@ export class BranchCrudComponent implements OnInit {
   }
 
   private loadList() {
-    this.service.getAll().subscribe((items: Branch[]) => {
+    this.service.getAll().subscribe((items: Order[]) => {
       this.items = items;
     });
   }
 
   private saveAddedItem(alwaysFunc: () => void) {
     this.service.create(this.editedItem).subscribe((id: number) => {
-      let addedItem = new Branch(id, this.editedItem.address, this.editedItem.telephone);
+      let addedItem = new Order(id, this.editedItem.status, this.editedItem.rentDate,
+        this.editedItem.daysRent, this.editedItem.cost,
+        this.editedItem.clientId, this.editedItem.employeeId, this.editedItem.jewelryId);
       this.changeItemInList(this.editedItem.id, addedItem);
       this.operationStatus = CrudStatus.Added;
     }, error => {
@@ -133,11 +147,11 @@ export class BranchCrudComponent implements OnInit {
     }, alwaysFunc);
   }
 
-  private insertItemToList(index: number, item: Branch) {
+  private insertItemToList(index: number, item: Order) {
     this.items.splice(index, 0, item);
   }
 
-  private changeItemInList(itemId: number, changedItem?: Branch) {
+  private changeItemInList(itemId: number, changedItem?: Order) {
     let i = this.items.findIndex(x => x.id == itemId);
     if (changedItem == null) {
       this.items.splice(i, 1);
@@ -154,4 +168,5 @@ export class BranchCrudComponent implements OnInit {
         ? -1
         : 0;
   }
+
 }

@@ -6,23 +6,23 @@
         <a class="btn-floating waves-effect waves-light" (click)="addItem()">
           <i class="material-icons small">add</i>
         </a>
-        Branch list
+        Material list
       </h3>
     </div>
     <div class="input-field col s4">
       <select [(ngModel)]="sorting" (change)="sort()" materialize="material_select" [materializeSelectOptions]="selectOptions">
         <option value="" disabled selected>Choose sorting</option>
         <option value="Id">Id</option>
-        <option value="Address">Address</option>
-        <option value="Telephone">Telephone</option>
+        <option value="Name">Name</option>
       </select>
     </div>
   </div>
 
   <div class="row">
-    <h5 class="col s2">Id</h5>
-    <h5 class="col s4">Address</h5>
-    <h5 class="col s4">Phone number</h5>
+    <h5 class="col s1">Id</h5>
+    <h5 class="col s3">Name</h5>
+    <h5 class="col s3">Description</h5>
+    <h5 class="col s3">Parent material ID</h5>
   </div>
 
   <div class="row" *ngFor="let item of items">
@@ -33,9 +33,10 @@
   <crud-message [crudStatus]="operationStatus"></crud-message>
 
   <ng-template #readOnlyTemplate let-item>
-    <div class="col s2">{{item.id}}</div>
-    <div class="col s4">{{item.address}}</div>
-    <div class="col s4">{{item.telephone}}</div>
+    <div class="col s1">{{item.id}}</div>
+    <div class="col s3">{{item.name}}</div>
+    <div class="col s3">{{item.description}}</div>
+    <div class="col s3">{{item.parentMaterialId}}</div>
     <div class="col s1">
       <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
         <i class="material-icons small">edit</i>
@@ -49,24 +50,29 @@
   </ng-template>
 
   <ng-template #editTemplate>
-    <div class="col s2">
+    <div class="col s1">
       <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
     </div>
-    <div class="col s4">
-      <input type="text" [(ngModel)]="editedItem.address" #address="ngModel" required minlength="3" maxlength="255" />
-      <span class="helper-text" [hidden]="address.valid || address.untouched">
+    <div class="col s3">
+      <input type="text" [(ngModel)]="editedItem.name" #name="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="name.valid || name.untouched">
         *This is a required field. Enter from 3 to 255 characters.
       </span>
     </div>
-    <div class="col s4">
-      <input type="tel" [(ngModel)]="editedItem.telephone" placeholder="(XX)-XXX-XX-XX" #telephone="ngModel" required minlength="3"
-        maxlength="255" />
-      <span class="helper-text" [hidden]="telephone.valid || telephone.untouched">
+    <div class="col s3">
+      <input type="text" [(ngModel)]="editedItem.description" #description="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="description.valid || description.untouched">
         *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s3">
+      <input type="number" [(ngModel)]="editedItem.parentMaterialId" #parentMaterialId="ngModel" min="0" max="1000000000"/>
+      <span class="helper-text" [hidden]="parentMaterialId.valid || parentMaterialId.untouched">
+        *Min value is 0.
       </span>
     </div>
     <div class="col s1">
-      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid">
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="name.invalid || description.invalid">
         <i class="material-icons small">save</i>
       </button>
     </div>
