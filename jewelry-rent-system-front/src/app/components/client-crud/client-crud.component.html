@@ -21,7 +21,7 @@
   </div>
 
   <div class="row">
-    <h5 class="col s1 offest-s2">Id</h5>
+    <h5 class="col s1">Id</h5>
     <h5 class="col s1">Name</h5>
     <h5 class="col s2">Surname</h5>
     <h5 class="col s1">Second name</h5>
@@ -62,8 +62,8 @@
       <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
     </div>
     <div class="col s1">
-      <input type="text" [(ngModel)]="editedItem.name" #clname="ngModel" required minlength="3" maxlength="255" />
-      <span class="helper-text" [hidden]="clname.valid || clname.untouched">
+      <input type="text" [(ngModel)]="editedItem.name" #name="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="name.valid || name.untouched">
         *This is a required field. Enter from 3 to 255 characters.
       </span>
     </div>
@@ -99,7 +99,7 @@
       </span>
     </div>
     <div class="col s1 right-align">
-      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid || passportNumber.invalid || secondName.invalid  || surname.invalid || clname.invalid">
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="telephone.invalid || address.invalid || passportNumber.invalid || secondName.invalid  || surname.invalid || name.invalid">
         <i class="material-icons small">save</i>
       </button>
     </div>
