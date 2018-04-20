@@ -21,6 +21,7 @@ import { ClientCrudComponent } from './components/client-crud/client-crud.compon
 import { EmployeeCrudComponent } from './components/employee-crud/employee-crud.component';
 import { MaterialCrudComponent } from './components/material-crud/material-crud.component';
 import { OrderCrudComponent } from './components/order-crud/order-crud.component';
+import { JewelryCrudComponent } from './components/jewelry-crud/jewelry-crud.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { OrderCrudComponent } from './components/order-crud/order-crud.component
     EmployeeCrudComponent,
     MaterialCrudComponent,
     OrderCrudComponent,
+    JewelryCrudComponent,
   ],
   imports: [
     BrowserModule,
