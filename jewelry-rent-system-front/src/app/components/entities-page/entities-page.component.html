@@ -35,7 +35,13 @@
       <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="403"></error-page>
     </div>
     <div id="div-jewelry" class="col s12">Test 4</div>
-    <div id="div-material" class="col s12">Test 4</div>
-    <div id="div-order" class="col s12">Test 4</div>
+    <div id="div-material" class="col s12">
+      <material-crud *ngIf="currentUser.user != null && currentUser.isAdmin"></material-crud>
+      <error-page *ngIf="currentUser.user != null && !currentUser.isAdmin" [code]="403"></error-page>
+    </div>
+    <div id="div-order" class="col s12">
+      <order-crud *ngIf="currentUser.user != null && (currentUser.isSeller || currentUser.isManager)"></order-crud>
+      <error-page *ngIf="currentUser.user != null && !(currentUser.isSeller || currentUser.isManager)" [code]="403"></error-page>
+    </div>
   </div>
 </div>

@@ -20,6 +20,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { ClientCrudComponent } from './components/client-crud/client-crud.component';
 import { EmployeeCrudComponent } from './components/employee-crud/employee-crud.component';
 import { MaterialCrudComponent } from './components/material-crud/material-crud.component';
+import { OrderCrudComponent } from './components/order-crud/order-crud.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MaterialCrudComponent } from './components/material-crud/material-crud.
     ClientCrudComponent,
     EmployeeCrudComponent,
     MaterialCrudComponent,
+    OrderCrudComponent,
   ],
   imports: [
     BrowserModule,
