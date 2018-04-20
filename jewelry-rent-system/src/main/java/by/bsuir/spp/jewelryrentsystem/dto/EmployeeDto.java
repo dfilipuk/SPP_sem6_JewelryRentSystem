@@ -41,8 +41,7 @@ public class EmployeeDto {
     @Size(groups = {Create.class, Update.class}, min = 3, max = 255, message = "Length between 3 and 255")
     private String login;
 
-    @NotNull(groups = {Create.class}, message = "Required field")
-    @Size(groups = {Create.class, Update.class}, min = 6, max = 512, message = "Length between 6 and 512")
+    @NotNull(groups = {Create.class, Update.class}, message = "Required field")
     private String password;
 
     @NotNull(groups = {Create.class, Update.class}, message = "Required field")
