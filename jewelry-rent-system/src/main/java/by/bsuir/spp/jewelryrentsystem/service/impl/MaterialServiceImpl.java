@@ -150,11 +150,12 @@ public class MaterialServiceImpl implements MaterialService {
         List<MaterialDto> materialsDto = new ArrayList<>();
 
         for (Material material : materials) {
+            Material parent = material.getParentMaterial();
             materialsDto.add(new MaterialDto(
                     material.getId(),
                     material.getName(),
                     material.getDescription(),
-                    0
+                    parent != null ? material.getParentMaterial().getId() : 0
             ));
         }
 

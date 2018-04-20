@@ -161,8 +161,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setSalary(employeeDto.getSalary());
         employee.setPosition(employeeDto.getPosition());
         employee.setLogin(employeeDto.getLogin());
-        employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
         employee.setRole(employeeDto.getRole());
+
+        if (employeeDto.getPassword() != null) {
+            employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
+        }
 
         try {
             employeeRepository.saveAndFlush(employee);
