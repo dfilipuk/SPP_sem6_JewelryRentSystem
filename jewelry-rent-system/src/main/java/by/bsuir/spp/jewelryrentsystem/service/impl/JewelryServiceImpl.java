@@ -199,6 +199,12 @@ public class JewelryServiceImpl implements JewelryService {
         List<JewelryDto> jewelriesDto = new ArrayList<>();
 
         for (Jewelry jewelry : jewelries) {
+            List<Long> materials = new ArrayList<>();
+
+            for (Material material : jewelry.getMaterials()) {
+                materials.add(material.getId());
+            }
+
             jewelriesDto.add(new JewelryDto(
                     jewelry.getId(),
                     jewelry.getName(),
@@ -211,7 +217,7 @@ public class JewelryServiceImpl implements JewelryService {
                     jewelry.getCostPerDay(),
                     jewelry.getDaysRental(),
                     0,
-                    new ArrayList<>()
+                    materials
             ));
         }
 
