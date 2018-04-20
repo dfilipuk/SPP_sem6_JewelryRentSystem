@@ -1,10 +1,12 @@
 export class Order {
-    id: number;
-    status: string;
-    rentDate: string;
-    daysRent: number;
-    cost: number;
-    clientId: number;
-    employeeId: number;
-    jewelryId: number;
+    constructor(
+        public id: number,
+        public status: string,
+        public rentDate: string,
+        public daysRent: number,
+        public cost: number,
+        public clientId: number,
+        public employeeId: number,
+        public jewelryId: number
+    ) { }
 }

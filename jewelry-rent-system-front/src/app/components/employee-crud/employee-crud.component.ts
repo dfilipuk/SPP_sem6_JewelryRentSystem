@@ -79,6 +79,7 @@ export class EmployeeCrudComponent implements OnInit {
   }
 
   saveItem() {
+    this.editedItem.role = this.role;
     let always = () => {
       this.editedItem = null;
       this.isNewRecord = false;
@@ -122,7 +123,6 @@ export class EmployeeCrudComponent implements OnInit {
   }
 
   private saveAddedItem(alwaysFunc: () => void) {
-    this.editedItem.role = this.role;
     this.service.create(this.editedItem).subscribe((id: number) => {
       let addedItem = new Employee(id, this.editedItem.name, this.editedItem.surname, this.editedItem.secondName,
         this.editedItem.salary, this.editedItem.position, this.editedItem.login, 
@@ -135,7 +135,6 @@ export class EmployeeCrudComponent implements OnInit {
   }
 
   private saveEditedItem(alwaysFunc: () => void) {
-    this.editedItem.role = this.role;
     this.service.update(this.editedItem).subscribe(() => {
       this.changeItemInList(this.editedItem.id, this.editedItem);
       this.operationStatus = CrudStatus.Updated;
