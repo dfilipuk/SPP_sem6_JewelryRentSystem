@@ -1,0 +1,150 @@
+<div class="container">
+  <div class="row">
+    <div class="col offset-s1 s5">
+      <h3>
+        <a class="btn-floating waves-effect waves-light" (click)="addItem()">
+          <i class="material-icons small">add</i>
+        </a>
+        Employee list
+      </h3>
+    </div>
+    <div class="col s2 checkbox-container">
+      <input type="checkbox" id="showPassword" [(ngModel)]="showPassword" />
+      <label for="showPassword">Show password</label>
+    </div>
+    <div class="input-field col s2">
+      <select [(ngModel)]="sorting" (change)="sort()" materialize="material_select" [materializeSelectOptions]="selectOptions">
+        <option value="" disabled selected>Choose sorting</option>
+        <option value="Id">Id</option>
+        <option value="Name">Name</option>
+        <option value="Second name">Second name</option>
+        <option value="Login">Login</option>
+        <option value="Salary">Salary</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <h5 class="col s1">Id</h5>
+    <h5 class="col s1">Name</h5>
+    <h5 class="col s1">Surname</h5>
+    <h5 class="col s1">Second name</h5>
+    <h5 class="col s1">Salary</h5>
+    <h5 class="col s1">Login</h5>
+    <h5 class="col s1 col-broad">Password</h5>
+    <h5 class="col s1 col-broad">Role</h5>
+    <h5 class="col s1">Branch ID</h5>
+  </div>
+
+  <div class="row" *ngFor="let item of items">
+    <ng-template [ngTemplateOutlet]="loadTemplate(item)" [ngTemplateOutletContext]="{ $implicit: item }">
+    </ng-template>
+  </div>
+
+  <crud-message [crudStatus]="operationStatus"></crud-message>
+
+  <ng-template #readOnlyTemplate let-item>
+    <div class="col s1">{{item.id}}</div>
+    <div class="col s1">{{item.name}}</div>
+    <div class="col s1">{{item.surname}}</div>
+    <div class="col s1">{{item.secondName}}</div>
+    <div class="col s1">{{item.salary}}</div>
+    <div class="col s1">{{item.login}}</div>
+    <div class="col s1 col-broad">{{item.password}}</div>
+    <div class="col s1 col-broad">
+      <div [ngSwitch]="item.role">
+        <ng-template ngSwitchCase="ROLE_ADMIN">Administrator</ng-template>
+        <ng-template ngSwitchCase="ROLE_MANAGER">Manager</ng-template>
+        <ng-template ngSwitchCase="ROLE_SELLER">Seller</ng-template>
+      </div>
+    </div>
+    <div class="col s1">{{item.branchId}}</div>
+    <div class="col s1 right-align">
+      <a class="btn btn-floating waves-effect waves-light" (click)="editItem(item)">
+        <i class="material-icons small">edit</i>
+      </a>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="openDeleteModal(item)">
+        <i class="material-icons small">delete</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template #editTemplate>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.id" readonly disabled />
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.name" #name="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="name.valid || name.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.surname" #surname="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="surname.valid || surname.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.secondName" #secondName="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="secondName.valid || secondName.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.salary" #salary="ngModel" min="0" max="1000000000" />
+      <span class="helper-text" [hidden]="salary.valid || salary.untouched">
+        *Min value is 0.
+      </span>
+    </div>
+    <div class="col s1">
+      <input type="text" [(ngModel)]="editedItem.login" #login="ngModel" required minlength="3" maxlength="255" />
+      <span class="helper-text" [hidden]="login.valid || login.untouched">
+        *This is a required field. Enter from 3 to 255 characters.
+      </span>
+    </div>
+    <div class="col s1 col-broad">
+      <input *ngIf="!showPassword" type="password" [(ngModel)]="editedItem.password" required minlength="6" maxlength="512" />
+      <input *ngIf="showPassword" type="text" [(ngModel)]="editedItem.password" required minlength="6" maxlength="512" />
+      <span *ngIf="editedItem.password.length > 0 && (editedItem.password.length < 6 || editedItem.password.length > 512)" class="helper-text">
+        *This is a required field. Enter from 6 to 512 characters.
+      </span>
+    </div>
+    <div class="col s1 col-broad">
+      <select [(ngModel)]="role" required materialize="material_select" [materializeSelectOptions]="selectOptions">
+        <option value="ROLE_ADMIN">Administrator</option>
+        <option value="ROLE_MANAGER">Manager</option>
+        <option value="ROLE_SELLER">Seller</option>
+      </select>
+    </div>
+    <div class="col s1">
+      <input type="number" [(ngModel)]="editedItem.branchId" #branchId="ngModel" min="1" max="1000000000" required/>
+      <span class="helper-text" [hidden]="branchId.valid || branchId.untouched">
+        *Min value is 1.
+      </span>
+    </div>
+    <div class="col s1 right-align">
+      <button type="submit" class="btn btn-floating waves-effect waves-light" (click)="saveItem()" [disabled]="editedItem.password.length > 0 && (editedItem.password.length < 6 || editedItem.password.length > 512) || login.invalid || salary.invalid || secondName.invalid || surname.invalid || name.invalid">
+        <i class="material-icons small">save</i>
+      </button>
+    </div>
+    <div class="col s1">
+      <a class="btn btn-floating waves-effect waves-light" (click)="cancel()">
+        <i class="material-icons small">cancel</i>
+      </a>
+    </div>
+  </ng-template>
+
+  <div id="deleteModal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="deleteModalAction">
+    <div class="modal-content">
+      <h4>Are you sure that you really want to delete this item?</h4>
+      <p>The deleted item can not be restored.</p>
+    </div>
+    <div class="modal-footer">
+      <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="deleteItem()">Delete</a>
+      <a class="waves-effect waves-green btn-flat" (click)="closeDeleteModal()">Close</a>
+    </div>
+  </div>
+</div>

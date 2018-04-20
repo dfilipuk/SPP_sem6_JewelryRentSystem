@@ -1,11 +1,13 @@
-export class Employee{
-    id: number;
-    name: string;
-    surname: string;
-    secondName: string;
-    salary: number;
-    position: string;
-    login: string;
-    password: string;
-    role: string;
+export class Employee {
+    constructor(
+        public id: number,
+        public name: string,
+        public surname: string,
+        public secondName: string,
+        public salary: number,
+        public position: string,
+        public login: string,
+        public password: string,
+        public role: string,
+        public branchId: number) { }
 }
