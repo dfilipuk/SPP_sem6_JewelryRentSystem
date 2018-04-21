@@ -188,7 +188,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employee.getLogin(),
                     "",
                     employee.getRole(),
-                    0
+                    employee.getBranch().getId()
             ));
         }
 

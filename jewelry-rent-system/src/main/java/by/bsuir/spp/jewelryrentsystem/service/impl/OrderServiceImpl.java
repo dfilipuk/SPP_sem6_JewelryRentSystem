@@ -188,9 +188,9 @@ public class OrderServiceImpl implements OrderService {
                     formatter.format(order.getRentDate()),
                     order.getDaysRent(),
                     order.getCost(),
-                    0,
-                    0,
-                    0
+                    order.getClient().getId(),
+                    order.getEmployee().getId(),
+                    order.getJewelry().getId()
             ));
         }
 
