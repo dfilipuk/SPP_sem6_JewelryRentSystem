@@ -8,7 +8,6 @@ import by.bsuir.spp.jewelryrentsystem.service.impl.document.OrderDocumentBuilder
 import by.bsuir.spp.jewelryrentsystem.service.impl.document.ProfitDocumentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import java.io.IOException;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/document")
-@PreAuthorize("hasRole('ROLE_MANAGER')")
 public class DocumentsController {
     private final String ERROR_MESSAGE = "Unable to generate document";
     private final String EXCEL_CONTENT_TYPE = "application/vnd.ms-excel";

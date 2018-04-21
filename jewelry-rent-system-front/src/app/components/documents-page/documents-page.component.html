@@ -1,3 +1,79 @@
-<p>
-  documents-page works!
-</p>
+<div class="container">
+  <div class="row center">
+    <h3>Reports</h3>
+  </div>
+  <div class="row">
+    <div class="col s3 offset-s2">
+      <p>
+        <input name="documentType" type="radio" id="docTypeClients" [(ngModel)]="docType" [value]="0" />
+        <label for="docTypeClients">Clients сatalog</label>
+      </p>
+      <p>
+        <input name="documentType" type="radio" id="docTypeEmployees" [(ngModel)]="docType" [value]="1" />
+        <label for="docTypeEmployees">Employees сatalog</label>
+      </p>
+      <p>
+        <input name="documentType" type="radio" id="docTypeJewelries" [(ngModel)]="docType" [value]="2" />
+        <label for="docTypeJewelries">Jewelries сatalog</label>
+      </p>
+      <p>
+        <input name="documentType" type="radio" id="docTypeOrders" [(ngModel)]="docType" [value]="3" />
+        <label for="docTypeOrders">Orders report</label>
+      </p>
+      <p>
+        <input name="documentType" type="radio" id="docTypeProfit" [(ngModel)]="docType" [value]="4" />
+        <label for="docTypeProfit">Profit report</label>
+      </p>
+    </div>
+    <div class="col s2">
+      <p>
+        <input name="documentExtension" type="radio" id="docExtPdf" [(ngModel)]="docExtension" [value]="0" />
+        <label for="docExtPdf">PDF</label>
+      </p>
+      <p>
+        <input name="documentExtension" type="radio" id="docExtExcel" [(ngModel)]="docExtension" [value]="1" />
+        <label for="docExtExcel">Excel</label>
+      </p>
+      <p>
+        <input name="documentExtension" type="radio" id="docExtCsv" [(ngModel)]="docExtension" [value]="2" />
+        <label for="docExtCsv">CSV</label>
+      </p>
+    </div>
+    <div class="col s3">
+      <div *ngIf="docType === 1">
+        <label for="input-branch">Branch ID</label>
+        <input id="input-branch" type="number" [(ngModel)]="docParams.branchId" #branchId="ngModel" min="1" max="1000000000" required/>
+        <span class="helper-text" [hidden]="branchId.valid">
+          *Min value is 1.
+        </span>
+      </div>
+      <div *ngIf="docType === 2">
+        <label for="input-material">Material ID</label>
+        <input id="input-material" type="number" [(ngModel)]="docParams.materialId" #materialId="ngModel" min="1" max="1000000000" required/>
+        <span class="helper-text" [hidden]="materialId.valid">
+          *Min value is 1.
+        </span>
+      </div>
+      <div *ngIf="docType === 3 || docType === 4">
+          <label for="input-startDate">From (start date)</label>
+          <input id="input-startDate" [(ngModel)]="startDateValue" materialize="pickadate" 
+          [materializeParams]="[{format: 'yyyy-mm-dd'}]" type="text" #startDate="ngModel" required/>
+          <span class="helper-text" [hidden]="startDate.valid">
+            *This is a required field.
+          </span>
+          <label for="input-endDate">To (end date)</label>
+          <input id="input-endDate" [(ngModel)]="endDateValue" materialize="pickadate" 
+          [materializeParams]="[{format: 'yyyy-mm-dd'}]" type="text" #endDate="ngModel" required/>
+          <span class="helper-text" [hidden]="endDate.valid">
+            *This is a required field.
+          </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 center">
+      <button class="waves-effect waves-light btn btn-large" (click)="generateDocument()">
+        Generate document</button>
+    </div>
+  </div>
+</div>
