@@ -27,6 +27,11 @@ export abstract class NetworkService {
         return this.http.post(url, data, { headers: headers }).map(this.getResponse);
     }
 
+    protected openWindow(location: string) {
+        let url = this.serverUrl + location;
+        window.open(url);
+    }
+
     private getHeaders() {
         let authToken = this.storage.get(this.authTokenName);
         let headers = new Headers();
@@ -35,7 +40,7 @@ export abstract class NetworkService {
         return headers;
     }
 
-    private getResponse(response: Response){
+    private getResponse(response: Response) {
         return response.status == 200 && response.arrayBuffer().byteLength == 0
             ? null
             : response.json();
