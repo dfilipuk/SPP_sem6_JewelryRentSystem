@@ -1,10 +1,19 @@
-FROM openjdk:8-jdk-alpine
-
+# Windows only: convert line breaks to unix style
+FROM ubuntu AS converter
+RUN apt-get update && apt-get install dos2unix
 WORKDIR /app
+COPY mvnw mvnw
+RUN dos2unix ./mvnw
 
-COPY . /app
-COPY ./src/main/resources/application.docker.properties /app/src/main/resources/application.properties
-
+FROM openjdk:8-jdk-alpine AS builder
+WORKDIR /app
+COPY . .
+COPY ./src/main/resources/application.docker.properties ./src/main/resources/application.properties
+COPY --from=converter /app/mvnw mvnw
 RUN ./mvnw -Dmaven.test.skip=true clean package
 
-ENTRYPOINT ["java","-jar","/app/target/jewelry-rent-system-0.0.1-SNAPSHOT.jar"]
+FROM openjdk:8-jre-alpine
+EXPOSE 8080
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "./app.jar"]

@@ -1,7 +1,8 @@
 version: "3.9"
 services:
-  web:
-    container_name: web
+  app-ui:
+    image: jrs-frontend
+    container_name: application-ui
     build: ./jewelry-rent-system-front
     volumes:
       - './jewelry-rent-system-front:/app'
@@ -9,32 +10,29 @@ services:
     ports:
       - 4200:4200
     depends_on: 
-      - server
+      - app-api
 
-  server:
-    container_name: server
+  app-api:
+    image: jrs-backend
+    container_name: application-api
     build: ./jewelry-rent-system
     ports:
       - 8080:8080
     depends_on: 
       - mysql
 
-  phpmyadmin:
-    container_name: db-admin
-    image: phpmyadmin
+  adminer:
+    image: adminer
+    container_name: database-management
     restart: always
     ports:
-      - 8081:80
-    environment:
-      - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=root
+      - 4201:8080
     depends_on: 
       - mysql
 
   mysql:
-    container_name: db
     image: mysql
+    container_name: database
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
