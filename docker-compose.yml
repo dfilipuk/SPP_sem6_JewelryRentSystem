@@ -24,7 +24,6 @@ services:
   adminer:
     image: adminer
     container_name: database-management
-    restart: always
     ports:
       - 4201:8080
     depends_on: 
@@ -34,7 +33,6 @@ services:
     image: mysql
     container_name: database
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
     environment:
       MYSQL_USER: jrs-server
       MYSQL_PASSWORD: 12345
