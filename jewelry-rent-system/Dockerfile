@@ -1,6 +1,6 @@
 # Windows only: convert line breaks to unix style
-FROM ubuntu AS converter
-RUN apt-get update && apt-get install dos2unix
+FROM alpine AS converter
+RUN apk add dos2unix
 WORKDIR /app
 COPY mvnw mvnw
 RUN dos2unix ./mvnw
