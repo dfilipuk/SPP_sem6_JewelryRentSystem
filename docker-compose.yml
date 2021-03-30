@@ -5,8 +5,8 @@ services:
     container_name: application-ui
     build: ./jewelry-rent-system-front
     volumes:
-      - './jewelry-rent-system-front:/app'
-      - '/app/node_modules'
+      - ./jewelry-rent-system-front:/app
+      - /app/node_modules
     ports:
       - 4200:4200
     depends_on: 
