@@ -8,9 +8,9 @@ RUN dos2unix ./mvnw
 FROM openjdk:8-jdk-alpine AS builder
 WORKDIR /app
 COPY . .
-COPY ./src/main/resources/application.docker.properties ./src/main/resources/application.properties
+RUN mv src/main/resources/application.docker.properties src/main/resources/application.properties
 COPY --from=converter /app/mvnw mvnw
-RUN ./mvnw -Dmaven.test.skip=true clean package
+RUN mvnw -Dmaven.test.skip=true clean package
 
 FROM openjdk:8-jre-alpine
 EXPOSE 8080
