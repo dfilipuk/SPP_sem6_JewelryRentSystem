@@ -10,7 +10,7 @@ WORKDIR /app
 COPY . .
 RUN mv src/main/resources/application.docker.properties src/main/resources/application.properties
 COPY --from=converter /app/mvnw mvnw
-RUN mvnw -Dmaven.test.skip=true clean package
+RUN ./mvnw -Dmaven.test.skip=true clean package
 
 FROM openjdk:8-jre-alpine
 EXPOSE 8080

@@ -8,7 +8,7 @@ Documents management system in Java (Spring framework) and Angular
 - Start application with Docker: `docker-compose up -d`
 
 ### Data
-- Restore data from backup: `docker exec -i database mysql -ujrs-server -p12345 < ./database/initial_data.sql`
+- Restore data from backup: `docker exec -i jrs-database mysql -ujrs-server -p12345 < ./database/initial_data.sql`
 
 ### Usage
 - User interface: http://localhost:4200

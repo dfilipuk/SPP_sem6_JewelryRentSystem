@@ -1,8 +1,8 @@
 version: "3.9"
 services:
   app-ui:
-    image: jrs-frontend
-    container_name: application-ui
+    image: jewelry-rent-system/frontend
+    container_name: jrs-application-ui
     build: ./jewelry-rent-system-front
     volumes:
       - ./jewelry-rent-system-front:/app
@@ -13,8 +13,8 @@ services:
       - app-api
 
   app-api:
-    image: jrs-backend
-    container_name: application-api
+    image: jewelry-rent-system/backend
+    container_name: jrs-application-api
     build: ./jewelry-rent-system
     ports:
       - 8080:8080
@@ -23,7 +23,7 @@ services:
 
   adminer:
     image: adminer
-    container_name: database-management
+    container_name: jrs-database-management
     ports:
       - 4201:8080
     depends_on: 
@@ -31,7 +31,7 @@ services:
 
   mysql:
     image: mysql
-    container_name: database
+    container_name: jrs-database
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_USER: jrs-server
